@@ -124,7 +124,7 @@ export default function FAQSection() {
           <div className="faq-mascot-wrapper">
             <div className="mascot-ambient-aura-red" />
             <img 
-              src="/mascot-faq-clean.png" 
+              src="/mascot-faq.webp" 
               alt="DUDI Robot Mascot FAQ" 
               className="faq-mascot-img"
             />

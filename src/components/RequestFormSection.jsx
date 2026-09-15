@@ -340,7 +340,7 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
 
         .form-banner-card {
           position: relative;
-          background-image: url('/bb2c1f81-bb51-4166-aee0-dfd075dc2eb3.png');
+          background-image: url('/form-bg.webp');
           background-size: cover;
           background-position: center right;
           background-repeat: no-repeat;

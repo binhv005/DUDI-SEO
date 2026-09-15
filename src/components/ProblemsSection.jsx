@@ -3,7 +3,7 @@ import React from 'react';
 export default function ProblemsSection() {
   const problems = [
     {
-      image: '/problem-1-clean.png',
+      image: '/problem-1.webp',
       title: 'Website không index hoặc lỗi kỹ thuật',
       bullets: [
         'Google thu thập dữ liệu bị gián đoạn, lỗi crawl',
@@ -12,7 +12,7 @@ export default function ProblemsSection() {
       ]
     },
     {
-      image: '/problem-2-clean.png',
+      image: '/problem-2.webp',
       title: 'Nội dung rời rạc, thiếu định hướng',
       bullets: [
         'Sản xuất bài viết không theo cụm chủ đề',
@@ -21,7 +21,7 @@ export default function ProblemsSection() {
       ]
     },
     {
-      image: '/problem-3-clean.png',
+      image: '/problem-3.webp',
       title: 'Traffic không đúng tệp khách hàng',
       bullets: [
         'Nhắm sai nhóm từ khóa mục tiêu kinh doanh',
@@ -30,7 +30,7 @@ export default function ProblemsSection() {
       ]
     },
     {
-      image: '/problem-4-clean.png',
+      image: '/problem-4.webp',
       title: 'Chưa đo lường và tối ưu chuyển đổi',
       bullets: [
         'Chưa thiết lập theo dõi sự kiện trên GSC & GA4',

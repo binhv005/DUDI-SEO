@@ -490,8 +490,8 @@ export default function ScopeLimitsSection() {
         /* Compact Policies Bottom Strip */
         .policies-compact-strip {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 10px;
+          grid-template-columns: 1.15fr 1fr 1fr;
+          gap: 12px;
           background: #0E1626;
           border: 1px solid rgba(239, 68, 68, 0.2);
           border-radius: 12px;
@@ -501,7 +501,7 @@ export default function ScopeLimitsSection() {
           box-sizing: border-box;
         }
 
-        @media (max-width: 860px) {
+        @media (max-width: 992px) {
           .policies-compact-strip {
             grid-template-columns: 1fr;
             gap: 8px;
@@ -513,8 +513,9 @@ export default function ScopeLimitsSection() {
           display: flex;
           align-items: center;
           gap: 6px;
-          font-size: 0.74rem;
+          font-size: 0.73rem;
           min-width: 0;
+          white-space: nowrap;
         }
 
         .policy-strip-icon {
@@ -526,18 +527,20 @@ export default function ScopeLimitsSection() {
           font-weight: 700;
           color: #FFFFFF;
           flex-shrink: 0;
+          white-space: nowrap;
         }
 
         .policy-strip-val {
           color: #94A3B8;
           min-width: 0;
-          word-break: break-word;
+          white-space: nowrap;
         }
 
-        @media (max-width: 860px) {
+        @media (max-width: 992px) {
           .policy-strip-item {
             flex-wrap: wrap;
             gap: 4px 6px;
+            white-space: normal;
           }
           .policy-strip-title {
             white-space: normal;

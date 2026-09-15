@@ -44,7 +44,7 @@ export default function HeroSection() {
           min-height: calc(100vh - 68px);
           display: flex;
           align-items: center;
-          background-image: url('/5befbf0d-edbd-4c68-aa78-85f4a5129eda.png');
+          background-image: url('/hero-bg.webp');
           background-size: cover;
           background-position: center right;
           background-repeat: no-repeat;
