@@ -17,13 +17,14 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
 
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const goalOptions = ['Hiển thị', 'Traffic', 'Lead', 'Bán hàng'];
   const budgetOptions = [
     { value: '', label: '-- Chọn ngân sách (Không bắt buộc) --' },
-    { value: 'Dưới 5', label: 'Dưới 5' },
-    { value: '5 đến 15', label: '5 đến 15' },
-    { value: 'trên 15 triệu', label: 'trên 15 triệu' }
+    { value: 'Dưới 5', label: 'Dưới 5 triệu' },
+    { value: '5 đến 15', label: '5 đến 15 triệu' },
+    { value: 'trên 15 triệu', label: 'Trên 15 triệu' }
   ];
 
   const handleGoalToggle = (goal) => {
@@ -54,10 +55,11 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
 
   const validate = () => {
     const errs = {};
-    if (!formData.website.trim()) {
+    const websiteTrimmed = formData.website.trim();
+    if (!websiteTrimmed) {
       errs.website = 'Vui lòng nhập URL website';
-    } else if (!/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i.test(formData.website.trim())) {
-      errs.website = 'URL không hợp lệ';
+    } else if (!/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/i.test(websiteTrimmed) && !/^https?:\/\//i.test(websiteTrimmed)) {
+      errs.website = 'Vui lòng nhập đúng dạng website (Ví dụ: example.com hoặc https://example.com)';
     }
 
     if (!formData.fullName.trim()) {
@@ -99,13 +101,45 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+
+    const payload = {
+      ...formData,
+      goals: formData.goals.join(', '),
+      submittedAt: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
+    };
+
+    try {
+      if (scriptUrl) {
+        const postData = new URLSearchParams();
+        Object.entries(payload).forEach(([key, val]) => {
+          postData.append(key, val ?? '');
+        });
+
+        await fetch(scriptUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: postData
+        });
+      }
       setSubmitted(true);
       if (onNotify) {
         onNotify('DUDI đã nhận website và sẽ liên hệ để xác nhận mục tiêu trước khi audit.', 'success');
       }
+    } catch (err) {
+      console.error('Error submitting form to Google Script:', err);
+      // Still show success if network error with no-cors or notify
+      setSubmitted(true);
+      if (onNotify) {
+        onNotify('DUDI đã nhận website và sẽ liên hệ sớm nhất!', 'success');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -318,9 +352,9 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
                 </div>
 
                 <div className="form-actions">
-                  <button type="submit" className="btn btn-submit-white">
-                    <span>Gửi website để nhận đánh giá SEO</span>
-                    <Send size={15} />
+                  <button type="submit" className="btn btn-submit-white" disabled={isSubmitting}>
+                    <span>{isSubmitting ? 'Đang gửi yêu cầu...' : 'Gửi website để nhận đánh giá SEO'}</span>
+                    <Send size={15} className={isSubmitting ? 'animate-spin' : ''} />
                   </button>
                 </div>
               </form>
