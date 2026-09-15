@@ -14,6 +14,8 @@ import FinalCTASection from './components/FinalCTASection';
 import Footer from './components/Footer';
 import FloatingActions from './components/FloatingActions';
 import Toast from './components/Toast';
+import Preloader from './components/Preloader';
+import SectionNavigator from './components/SectionNavigator';
 
 export default function App() {
   const [toastState, setToastState] = useState({
@@ -101,12 +103,18 @@ export default function App() {
 
   return (
     <div className="app-root page-fade-in">
-      {/* Scroll Progress Bar */}
+      {/* 1. Cyber Initial Page Preloader Transition */}
+      <Preloader />
+
+      {/* 2. Top Scroll Progress Bar */}
       <div 
         className="scroll-progress-bar" 
         style={{ width: `${scrollProgress}%` }}
         aria-hidden="true"
       />
+
+      {/* 3. Floating HUD Quick Navigator & Laser Sweep Transition */}
+      <SectionNavigator />
 
       {/* Toast Notification */}
       <Toast 
