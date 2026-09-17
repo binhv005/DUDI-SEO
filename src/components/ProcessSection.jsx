@@ -43,83 +43,6 @@ export default function ProcessSection() {
 
   return (
     <section id="s07-quy-trinh" className="section-wrapper process-section overflow-hidden">
-      {/* Cyber Circuit Lines Background Overlay - Matching FAQ Section */}
-      <div className="circuit-bg-container" aria-hidden="true">
-        <svg
-          className="circuit-svg"
-          viewBox="0 0 1000 600"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <defs>
-            <filter id="procCircuitGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="3.5" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            <linearGradient id="procLineGradRed1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#EF4444" stopOpacity="0.85" />
-              <stop offset="50%" stopColor="#F87171" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#DC2626" stopOpacity="0.25" />
-            </linearGradient>
-            <linearGradient id="procLineGradRed2" x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#F43F5E" stopOpacity="0.75" />
-              <stop offset="60%" stopColor="#EF4444" stopOpacity="0.45" />
-              <stop offset="100%" stopColor="#991B1B" stopOpacity="0.15" />
-            </linearGradient>
-          </defs>
-
-          {/* Faint Background Circuit Traces */}
-          <path d="M 40 0 V 130 H 170 V 270 H 70 V 430 H 210 V 600" stroke="rgba(239, 68, 68, 0.16)" strokeWidth="1.2" />
-          <path d="M 210 0 V 90 H 330 V 230 H 250 V 390 H 410 V 600" stroke="rgba(239, 68, 68, 0.16)" strokeWidth="1.2" />
-          <path d="M 0 170 H 130 V 310 H 270 V 130 H 440 V 290 H 590" stroke="rgba(239, 68, 68, 0.16)" strokeWidth="1.2" />
-          <path d="M 590 0 V 140 H 740 V 70 H 870 V 270 H 970" stroke="rgba(239, 68, 68, 0.18)" strokeWidth="1.2" />
-          <path d="M 740 600 V 440 H 610 V 350 H 770 V 210 H 910 V 470 H 1000" stroke="rgba(239, 68, 68, 0.16)" strokeWidth="1.2" />
-          <path d="M 390 600 V 470 H 510 V 330 H 690 V 490 H 850 V 600" stroke="rgba(239, 68, 68, 0.16)" strokeWidth="1.2" />
-
-          {/* Prominent Glowing Circuit Traces */}
-          <path d="M 80 0 V 100 H 170 V 250 H 50 V 370 H 160 V 510 H 270" stroke="url(#procLineGradRed1)" strokeWidth="2.2" filter="url(#procCircuitGlow)" className="circuit-trace-pulse-1" />
-          <path d="M 170 250 H 300 V 140 H 430 V 280 H 360 V 450 H 510" stroke="url(#procLineGradRed1)" strokeWidth="1.8" filter="url(#procCircuitGlow)" />
-          <path d="M 0 330 H 120 V 470 H 240 V 550 H 390 V 600" stroke="url(#procLineGradRed2)" strokeWidth="2" filter="url(#procCircuitGlow)" className="circuit-trace-pulse-2" />
-
-          {/* Right & Center Interconnected Tech Lines */}
-          <path d="M 530 0 V 120 H 690 V 50 H 830 V 190 H 750 V 330 H 900 V 220 H 1000" stroke="url(#procLineGradRed1)" strokeWidth="2.2" filter="url(#procCircuitGlow)" className="circuit-trace-pulse-3" />
-          <path d="M 690 120 V 270 H 570 V 430 H 730 V 530 H 620 V 600" stroke="url(#procLineGradRed2)" strokeWidth="1.8" filter="url(#procCircuitGlow)" />
-          <path d="M 830 190 V 370 H 950 V 520 H 790 V 600" stroke="url(#procLineGradRed1)" strokeWidth="2" filter="url(#procCircuitGlow)" className="circuit-trace-pulse-1" />
-          <path d="M 460 190 H 600 V 100 H 730" stroke="url(#procLineGradRed1)" strokeWidth="1.8" />
-          <path d="M 330 390 H 490 V 490 H 650 V 390 H 800" stroke="url(#procLineGradRed2)" strokeWidth="1.6" />
-
-          {/* Glowing High-Tech Junction Nodes / Terminals */}
-          <circle cx="80" cy="100" r="4" fill="#EF4444" filter="url(#procCircuitGlow)" />
-          <circle cx="170" cy="250" r="4" fill="#FFFFFF" filter="url(#procCircuitGlow)" />
-          <circle cx="300" cy="140" r="3.5" fill="#EF4444" />
-          <circle cx="430" cy="280" r="4" fill="#F87171" filter="url(#procCircuitGlow)" />
-          <circle cx="120" cy="470" r="3.5" fill="#EF4444" />
-          <circle cx="240" cy="550" r="4" fill="#FFFFFF" filter="url(#procCircuitGlow)" />
-          <circle cx="530" cy="120" r="3.5" fill="#EF4444" />
-          <circle cx="690" cy="120" r="4" fill="#F87171" filter="url(#procCircuitGlow)" />
-          <circle cx="830" cy="190" r="4.5" fill="#FFFFFF" filter="url(#procCircuitGlow)" />
-          <circle cx="750" cy="330" r="3.5" fill="#EF4444" />
-          <circle cx="900" cy="220" r="4" fill="#F87171" filter="url(#procCircuitGlow)" />
-          <circle cx="570" cy="430" r="4" fill="#FFFFFF" filter="url(#procCircuitGlow)" />
-          <circle cx="730" cy="530" r="3.5" fill="#EF4444" />
-          <circle cx="950" cy="520" r="4" fill="#EF4444" filter="url(#procCircuitGlow)" />
-
-          {/* Tech Sparks / Data Nodes */}
-          <circle cx="150" cy="130" r="2" fill="#EF4444" opacity="0.85" />
-          <circle cx="230" cy="350" r="2" fill="#FFFFFF" opacity="0.95" />
-          <circle cx="370" cy="210" r="2" fill="#F87171" opacity="0.85" />
-          <circle cx="490" cy="430" r="2" fill="#EF4444" opacity="0.8" />
-          <circle cx="650" cy="230" r="2" fill="#FFFFFF" opacity="0.95" />
-          <circle cx="790" cy="130" r="2" fill="#EF4444" opacity="0.85" />
-          <circle cx="870" cy="450" r="2" fill="#F87171" opacity="0.85" />
-        </svg>
-      </div>
-
       <div className="container relative-z">
         {/* Centered Heading */}
         <div className="section-header-center header-compact">
@@ -155,7 +78,7 @@ export default function ProcessSection() {
               const IconComp = step.icon;
               return (
                 <div key={idx} className={`timeline-step-node ${step.isPeak ? 'is-peak-step' : ''}`}>
-                  {/* Left Column on Mobile / Top on Desktop: Icon */}
+                  {/* Icon Column */}
                   <div className="node-icon-wrapper">
                     {/* Peeking Mascot Head (Desktop Hover Only) */}
                     <div className="hover-robot-peek" aria-hidden="true">
@@ -192,19 +115,30 @@ export default function ProcessSection() {
 
       <style>{`
         .process-section {
-          background-color: #120306 !important;
-          background-image: 
-            radial-gradient(circle at 75% 20%, rgba(239, 68, 68, 0.3) 0%, transparent 55%),
-            radial-gradient(circle at 20% 70%, rgba(220, 38, 38, 0.24) 0%, transparent 50%),
-            radial-gradient(circle at 50% 90%, rgba(185, 28, 28, 0.18) 0%, transparent 60%),
-            linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-          background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
-          padding-top: 54px !important;
-          padding-bottom: 54px !important;
+          background: linear-gradient(180deg, 
+            #FAF5EE 0%, 
+            #F4E8D7 20%, 
+            #ECCFA8 50%, 
+            #DCAC6E 78%, 
+            #C8873E 100%
+          ) !important;
+          padding-top: 56px !important;
+          padding-bottom: 60px !important;
           position: relative;
-          border-top: 1px solid rgba(239, 68, 68, 0.2);
-          border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+          border-top: 1px solid rgba(210, 145, 75, 0.25);
+          border-bottom: 1px solid rgba(190, 120, 50, 0.35);
+        }
+
+        .process-section::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: 
+            radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.6) 0%, transparent 60%),
+            radial-gradient(circle at 80% 90%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 20% 80%, rgba(160, 90, 25, 0.12) 0%, transparent 50%);
+          pointer-events: none;
+          z-index: 1;
         }
 
         .relative-z {
@@ -213,23 +147,25 @@ export default function ProcessSection() {
         }
 
         .process-section .section-badge {
-          background: rgba(239, 68, 68, 0.15) !important;
-          border: 1px solid rgba(239, 68, 68, 0.35) !important;
-          color: #EF4444 !important;
+          background: rgba(255, 255, 255, 0.85) !important;
+          border: 1px solid rgba(185, 28, 28, 0.25) !important;
+          color: #B91C1C !important;
           margin-bottom: 8px;
+          box-shadow: 0 2px 8px rgba(180, 83, 9, 0.08);
         }
 
         .process-section .section-title {
-          font-family: 'Chakra Petch', 'Plus Jakarta Sans', sans-serif;
-          color: #FFFFFF !important;
-          text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+          font-family: var(--font-heading);
+          color: #1F150D !important;
           margin-bottom: 6px !important;
+          font-weight: 800;
         }
 
         .process-section .section-desc {
-          color: #94A3B8 !important;
+          color: #4A3525 !important;
           max-width: 680px;
           margin: 0 auto;
+          font-weight: 500;
         }
 
         /* Header Accent Pins */
@@ -249,67 +185,21 @@ export default function ProcessSection() {
         .dash-accent .dash-bar {
           width: 30px;
           height: 2px;
-          background: #EF4444;
+          background: #D32F2F;
           border-radius: 2px;
-          box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
         }
 
         .dash-accent .dash-dot {
           width: 6px;
           height: 6px;
-          background: #EF4444;
+          background: #D32F2F;
           border-radius: 50%;
-          box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
         }
 
         @media (max-width: 768px) {
           .dash-accent {
             display: none;
           }
-        }
-
-        /* Cyber Circuit Background Layer */
-        .circuit-bg-container {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          pointer-events: none;
-          z-index: 1;
-          opacity: 0.95;
-        }
-
-        .circuit-svg {
-          width: 100%;
-          height: 100%;
-          display: block;
-        }
-
-        /* Pulse Animations on Traces */
-        .circuit-trace-pulse-1 {
-          stroke-dasharray: 100 240;
-          animation: circuitFlow1 6.5s linear infinite;
-        }
-
-        .circuit-trace-pulse-2 {
-          stroke-dasharray: 80 200;
-          animation: circuitFlow2 8s linear infinite;
-        }
-
-        .circuit-trace-pulse-3 {
-          stroke-dasharray: 120 280;
-          animation: circuitFlow1 7.5s linear infinite reverse;
-        }
-
-        @keyframes circuitFlow1 {
-          0% { stroke-dashoffset: 600; }
-          100% { stroke-dashoffset: 0; }
-        }
-
-        @keyframes circuitFlow2 {
-          0% { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: 550; }
         }
 
         /* Process Stage Layout */
@@ -333,14 +223,14 @@ export default function ProcessSection() {
         .timeline-track-glow {
           position: absolute;
           inset: -3px 0;
-          background: rgba(239, 68, 68, 0.35);
+          background: rgba(211, 47, 47, 0.2);
           filter: blur(4px);
         }
 
         .timeline-track-line {
           position: absolute;
           inset: 0;
-          border-top: 2px dashed rgba(239, 68, 68, 0.8);
+          border-top: 2px dashed rgba(211, 47, 47, 0.7);
         }
 
         .timeline-laser-pulse {
@@ -402,10 +292,10 @@ export default function ProcessSection() {
           justify-content: center;
           margin-bottom: 12px;
           z-index: 3;
-          background: #120306;
+          background: #FAF5EE;
           border-radius: 50%;
           padding: 4px;
-          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 4px 16px rgba(140, 75, 20, 0.18);
         }
 
         .node-icon-circle {
@@ -416,24 +306,24 @@ export default function ProcessSection() {
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 24px rgba(239, 68, 68, 0.5), inset 0 0 12px rgba(255, 255, 255, 0.25);
+          box-shadow: 0 6px 20px rgba(211, 47, 47, 0.35), inset 0 0 10px rgba(255, 255, 255, 0.25);
           transition: all 0.28s ease;
           position: relative;
           z-index: 2;
         }
 
         .timeline-step-node:hover .node-icon-circle {
-          box-shadow: 0 0 32px rgba(239, 68, 68, 0.8), inset 0 0 16px rgba(255, 255, 255, 0.45);
+          box-shadow: 0 8px 28px rgba(211, 47, 47, 0.55), inset 0 0 14px rgba(255, 255, 255, 0.45);
           transform: scale(1.08);
         }
 
-        /* Peak Step 3 Scalloped Orbital Ring */
+        /* Peak Step 3 Orbital Ring */
         .peak-badge-scallop {
           position: absolute;
           width: 78px;
           height: 78px;
           border-radius: 50%;
-          border: 1.8px dashed #EF4444;
+          border: 1.8px dashed #DC2626;
           animation: peakRingSpin 24s linear infinite;
         }
 
@@ -457,7 +347,7 @@ export default function ProcessSection() {
           pointer-events: none;
           z-index: 10;
           transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-          filter: drop-shadow(0 6px 14px rgba(239, 68, 68, 0.5));
+          filter: drop-shadow(0 6px 14px rgba(185, 28, 28, 0.35));
         }
 
         .hover-robot-img {
@@ -480,7 +370,7 @@ export default function ProcessSection() {
           font-size: 0.78rem;
           padding: 3px 12px;
           border-radius: 9999px;
-          box-shadow: 0 0 14px rgba(239, 68, 68, 0.4);
+          box-shadow: 0 2px 10px rgba(211, 47, 47, 0.28);
           margin-bottom: 6px;
           letter-spacing: 0.01em;
           white-space: nowrap;
@@ -488,15 +378,14 @@ export default function ProcessSection() {
 
         /* Title */
         .node-title {
-          font-size: 0.88rem;
+          font-size: 0.92rem;
           font-weight: 800;
-          color: #FFFFFF;
-          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+          color: #1F150D;
           margin-bottom: 4px;
           line-height: 1.25;
         }
 
-        /* Detailed Description - Futuristic Frosted Glass Tooltip on Desktop Hover */
+        /* Detailed Description - Warm Frosted Glass Tooltip on Desktop Hover */
         .node-hover-desc {
           opacity: 0;
           max-height: 0;
@@ -504,21 +393,22 @@ export default function ProcessSection() {
           transform: translateY(8px);
           transition: opacity 0.28s ease, transform 0.28s ease, max-height 0.28s ease;
           pointer-events: none;
-          background: rgba(24, 7, 10, 0.95);
-          border: 1px solid rgba(239, 68, 68, 0.4);
+          background: rgba(255, 255, 255, 0.96);
+          border: 1px solid rgba(220, 38, 38, 0.25);
           border-radius: 12px;
           padding: 0 12px;
           margin-top: 6px;
-          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 16px rgba(239, 68, 68, 0.25);
+          box-shadow: 0 12px 30px rgba(120, 60, 15, 0.16);
           backdrop-filter: blur(14px);
         }
 
         .desc-text {
-          font-size: 0.76rem;
-          color: #F1F5F9;
+          font-size: 0.78rem;
+          color: #332215;
           line-height: 1.45;
           margin: 0;
           padding: 10px 0;
+          font-weight: 500;
         }
 
         .timeline-step-node:hover .node-hover-desc {
@@ -562,11 +452,11 @@ export default function ProcessSection() {
             text-align: left;
             width: 100%;
             gap: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(220, 38, 38, 0.18);
             border-radius: 16px;
             padding: 16px;
-            backdrop-filter: blur(8px);
+            box-shadow: 0 6px 20px rgba(120, 60, 15, 0.08);
           }
 
           .timeline-step-node:hover {
@@ -577,6 +467,7 @@ export default function ProcessSection() {
             margin-bottom: 0;
             flex-shrink: 0;
             padding: 2px;
+            background: #FFFFFF;
           }
 
           .node-icon-circle {
@@ -622,7 +513,7 @@ export default function ProcessSection() {
 
           .desc-text {
             font-size: 0.8rem;
-            color: #CBD5E1;
+            color: #4A3525;
             padding: 0;
             line-height: 1.45;
           }

@@ -48,7 +48,7 @@ export default function FinalCTASection({ onNotify }) {
             {/* Buttons Group */}
             <div className="payrot-cta-actions">
               <a href="#s11-form" className="btn btn-primary payrot-btn-main">
-                <span>Gửi website để nhận đánh giá SEO</span>
+                <span>Nhận đánh giá SEO</span>
                 <ArrowRight size={16} />
               </a>
 

@@ -181,7 +181,7 @@ export default function Footer({ onNotify }) {
           height: 32px;
           width: auto;
           object-fit: contain;
-          border-radius: 6px;
+          border-radius: 0;
         }
 
         .sample-brand-name {

@@ -28,7 +28,7 @@ export default function HeroSection() {
           {/* Action buttons */}
           <div className="hero-cta-group">
             <a href="#s11-form" className="btn btn-primary btn-hero-main">
-              <span>Gửi website để nhận đánh giá SEO</span>
+              <span>Nhận đánh giá SEO</span>
               <ArrowRight size={18} />
             </a>
             <a href="#s06-bang-gia" className="btn btn-hero-secondary">

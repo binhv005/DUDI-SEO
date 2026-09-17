@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Menu, X, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+  const dropdownTimeoutRef = useRef(null);
+
+  const handleDropdownMouseEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setDropdownOpen(true);
+  };
+
+  const handleDropdownMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setDropdownOpen(false);
+    }, 220);
+  };
 
   const navLinks = [
     { name: 'Đối tượng', href: '#s03-doi-tuong' },
@@ -12,7 +28,16 @@ export default function Header() {
     { name: 'Quy trình', href: '#s07-quy-trinh' },
     { name: 'Báo cáo mẫu', href: '#s08-case' },
     { name: 'Giới hạn', href: '#s09-gioi-han' },
-    { name: 'FAQ', href: '#s10-faq' },
+  ];
+
+  const webSystemLinks = [
+    { name: 'Cập nhật', href: 'https://dudi-page.vercel.app/' },
+    { name: 'Đơn giá', href: 'https://dudi-dongia.vercel.app/' },
+    { name: 'Bán hàng', href: 'https://dudi-banhang.vercel.app/' },
+    { name: 'Dịch vụ', href: 'https://dudi-dichvu.vercel.app/' },
+    { name: 'Bảo trì', href: 'https://dudi-baotri.vercel.app/' },
+    { name: 'Giới thiệu', href: 'https://dudi-gioithieu.vercel.app/' },
+    { name: 'Tổng hợp', href: 'https://dudi-tonghop.vercel.app/' },
   ];
 
   return (
@@ -33,13 +58,57 @@ export default function Header() {
               {link.name}
             </a>
           ))}
+
+          {/* Hệ thống web Dropdown Menu (trước FAQ) */}
+          <div 
+            className="nav-dropdown-wrapper"
+            onMouseEnter={handleDropdownMouseEnter}
+            onMouseLeave={handleDropdownMouseLeave}
+          >
+            <button 
+              className={`nav-dropdown-btn ${dropdownOpen ? 'active' : ''}`}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              type="button"
+              aria-expanded={dropdownOpen}
+            >
+              <span>Hệ thống web</span>
+              {dropdownOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+
+            {dropdownOpen && (
+              <div 
+                className="nav-dropdown-menu"
+                onMouseEnter={handleDropdownMouseEnter}
+                onMouseLeave={handleDropdownMouseLeave}
+              >
+                <div className="nav-dropdown-inner">
+                  {webSystemLinks.map((item, idx) => (
+                    <a 
+                      key={idx} 
+                      href={item.href} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="nav-dropdown-item"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <a href="#s10-faq" className="nav-link">
+            FAQ
+          </a>
         </nav>
 
         {/* Header Actions */}
         <div className="header-actions">
           {/* CTA Button to Form */}
           <a href="#s11-form" className="btn btn-primary btn-sm header-cta">
-            <span>Gửi website để nhận đánh giá SEO</span>
+            <span>Nhận đánh giá SEO</span>
             <ArrowRight size={14} />
           </a>
 
@@ -68,13 +137,51 @@ export default function Header() {
                 {link.name}
               </a>
             ))}
+
+            {/* Mobile Dropdown for Hệ thống web */}
+            <div className="mobile-dropdown-group">
+              <button 
+                type="button"
+                className="mobile-nav-item mobile-dropdown-header"
+                onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+              >
+                <span className="mobile-badge-text">Hệ thống web</span>
+                {mobileDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </button>
+
+              {mobileDropdownOpen && (
+                <div className="mobile-sublinks">
+                  {webSystemLinks.map((item, idx) => (
+                    <a 
+                      key={idx} 
+                      href={item.href} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="mobile-sublink-item"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <a 
+              href="#s10-faq" 
+              className="mobile-nav-item"
+              onClick={() => setMenuOpen(false)}
+            >
+              FAQ
+            </a>
+
             <div className="mobile-nav-footer">
               <a 
                 href="#s11-form" 
                 className="btn btn-primary btn-full"
                 onClick={() => setMenuOpen(false)}
               >
-                Gửi website để nhận đánh giá SEO
+                Nhận đánh giá SEO
               </a>
             </div>
           </div>
@@ -119,6 +226,7 @@ export default function Header() {
           height: 38px;
           width: auto;
           object-fit: contain;
+          border-radius: 0;
         }
 
         .brand-highlight {
@@ -128,17 +236,17 @@ export default function Header() {
         .desktop-nav {
           display: flex;
           align-items: center;
-          gap: 14px;
+          gap: 12px;
           flex-shrink: 1;
         }
 
-        @media (max-width: 1200px) {
+        @media (max-width: 1240px) {
           .desktop-nav {
-            gap: 8px;
+            gap: 6px;
           }
         }
 
-        @media (max-width: 1040px) {
+        @media (max-width: 1080px) {
           .desktop-nav {
             display: none;
           }
@@ -159,6 +267,102 @@ export default function Header() {
           color: var(--primary);
         }
 
+        /* Hệ thống web Dropdown */
+        .nav-dropdown-wrapper {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          padding: 8px 0;
+        }
+
+        .nav-dropdown-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          background: transparent;
+          color: var(--text-muted);
+          border: none;
+          padding: 6px 6px;
+          font-size: 0.88rem;
+          font-weight: 600;
+          font-family: var(--font-main);
+          cursor: pointer;
+          transition: color 0.2s ease;
+          white-space: nowrap;
+        }
+
+        .nav-dropdown-btn:hover,
+        .nav-dropdown-btn.active {
+          color: var(--primary);
+          background: transparent;
+          box-shadow: none;
+          border-color: transparent;
+        }
+
+        .nav-dropdown-menu {
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          padding-top: 6px;
+          z-index: 250;
+          animation: dropFadeIn 0.18s ease forwards;
+        }
+
+        /* Invisible Hover Bridge connecting button and dropdown */
+        .nav-dropdown-menu::before {
+          content: '';
+          position: absolute;
+          top: -12px;
+          left: -10px;
+          right: -10px;
+          height: 20px;
+          background: transparent;
+        }
+
+        .nav-dropdown-inner {
+          background: #FFFFFF;
+          border-radius: 18px;
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14), 0 2px 10px rgba(0, 0, 0, 0.04);
+          border: 1px solid rgba(226, 232, 240, 0.9);
+          min-width: 175px;
+          overflow: hidden;
+        }
+
+        @keyframes dropFadeIn {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -6px);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+        }
+
+        .nav-dropdown-item {
+          display: block;
+          padding: 11px 20px;
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #0F172A;
+          text-decoration: none;
+          border-bottom: 1px solid #F1F5F9;
+          transition: all 0.18s ease;
+          white-space: nowrap;
+        }
+
+        .nav-dropdown-item:last-child {
+          border-bottom: none;
+        }
+
+        .nav-dropdown-item:hover {
+          background-color: #FFF5F5;
+          color: #E11D48;
+          padding-left: 24px;
+        }
+
+        /* Header Actions */
         .header-actions {
           display: flex;
           align-items: center;
@@ -181,7 +385,7 @@ export default function Header() {
           padding: 4px;
         }
 
-        @media (max-width: 1040px) {
+        @media (max-width: 1080px) {
           .mobile-menu-toggle {
             display: flex;
             align-items: center;
@@ -192,6 +396,7 @@ export default function Header() {
           }
         }
 
+        /* Mobile Menu */
         .mobile-nav-menu {
           position: absolute;
           top: 68px;
@@ -221,12 +426,53 @@ export default function Header() {
           font-weight: 600;
           color: var(--secondary);
           text-decoration: none;
-          padding: 6px 0;
+          padding: 8px 0;
           border-bottom: 1px dashed var(--border-subtle);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          text-align: left;
+          background: none;
+          border-top: none;
+          border-left: none;
+          border-right: none;
+          cursor: pointer;
+          font-family: var(--font-main);
         }
 
         .mobile-nav-item:hover {
           color: var(--primary);
+        }
+
+        .mobile-badge-text {
+          color: var(--secondary);
+          font-weight: 600;
+        }
+
+        .mobile-sublinks {
+          display: flex;
+          flex-direction: column;
+          background: #F8FAFC;
+          border-radius: 12px;
+          padding: 8px 12px;
+          margin: 4px 0 8px 0;
+          gap: 6px;
+        }
+
+        .mobile-sublink-item {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #334155;
+          text-decoration: none;
+          padding: 6px 8px;
+          border-radius: 6px;
+          transition: background 0.15s ease;
+        }
+
+        .mobile-sublink-item:hover {
+          background: #FFF1F2;
+          color: #E11D48;
         }
 
         .mobile-nav-footer {

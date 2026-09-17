@@ -103,13 +103,13 @@ export default function ScopeLimitsSection() {
   ];
 
   return (
-    <section id="s09-gioi-han" className="section-wrapper scope-limits-tech-section overflow-hidden">
+    <section id="s09-gioi-han" className="section-wrapper scope-limits-light-section overflow-hidden">
       <div className="container scope-main-container">
-        {/* Compact Tech Header */}
+        {/* Section Header */}
         <div className="section-header-center header-compact">
-          <div className="section-badge tech-badge">MINH BẠCH PHẠM VI</div>
-          <h2 className="section-title tech-title">Giới hạn phạm vi & Điều khoản dịch vụ</h2>
-          <p className="section-desc tech-desc">
+          <div className="section-badge">MINH BẠCH PHẠM VI</div>
+          <h2 className="section-title">Giới hạn phạm vi & Điều khoản dịch vụ</h2>
+          <p className="section-desc">
             Minh bạch tuyệt đối giữa các hạng mục đã bao gồm trong gói và các dịch vụ báo giá riêng biệt.
           </p>
         </div>
@@ -117,17 +117,16 @@ export default function ScopeLimitsSection() {
         {/* Symmetrical 2-Column Comparison Layout */}
         <div className="scope-comparison-grid">
           {/* CỘT 1: BAO GỒM TRONG GÓI (IN-SCOPE) */}
-          <div className="scope-card-tech in-scope-card reveal-left">
+          <div className="scope-card in-scope-card reveal-left">
             {/* Header with Mascot & Status Badge */}
             <div className="card-top-header">
               <div className="header-left">
                 <div className="scope-icon-pill green-pill">
-                  <CheckCircle2 size={17} className="status-icon" />
+                  <CheckCircle2 size={18} className="status-icon" />
                   <span className="scope-headline">Bao gồm trong gói SEO</span>
                 </div>
-                <span className="tech-system-tag green-tag">SYS // IN_SCOPE</span>
               </div>
-              <div className="robot-badge-peek">
+              <div className="robot-badge-peek green-robot-badge">
                 <img 
                   src="/robot-head.webp" 
                   alt="DUDI Robot Mascot In Scope" 
@@ -136,14 +135,14 @@ export default function ScopeLimitsSection() {
               </div>
             </div>
 
-            {/* List of 5 Concise Feature Rows */}
+            {/* List of 5 Feature Rows */}
             <div className="scope-items-grid">
               {inScopeItems.map((item, idx) => {
                 const IconC = item.icon;
                 return (
                   <div key={idx} className="tech-item-row in-item">
                     <div className="item-icon-box green-box">
-                      <IconC size={15} />
+                      <IconC size={16} />
                     </div>
                     <div className="item-info">
                       <div className="item-title-row">
@@ -159,17 +158,16 @@ export default function ScopeLimitsSection() {
           </div>
 
           {/* CỘT 2: NGOÀI PHẠM VI GÓI (OUT-OF-SCOPE) */}
-          <div className="scope-card-tech out-scope-card reveal-right">
+          <div className="scope-card out-scope-card reveal-right">
             {/* Header with Mascot & Status Badge */}
             <div className="card-top-header">
               <div className="header-left">
                 <div className="scope-icon-pill red-pill">
-                  <XCircle size={17} className="status-icon" />
+                  <XCircle size={18} className="status-icon" />
                   <span className="scope-headline">Ngoài phạm vi gói SEO</span>
                 </div>
-                <span className="tech-system-tag red-tag">SYS // EXCLUDED</span>
               </div>
-              <div className="robot-badge-peek">
+              <div className="robot-badge-peek red-robot-badge">
                 <img 
                   src="/robot-head.webp" 
                   alt="DUDI Robot Mascot Out Scope" 
@@ -178,14 +176,14 @@ export default function ScopeLimitsSection() {
               </div>
             </div>
 
-            {/* List of 5 Concise Feature Rows */}
+            {/* List of 5 Feature Rows */}
             <div className="scope-items-grid">
               {outScopeItems.map((item, idx) => {
                 const IconC = item.icon;
                 return (
                   <div key={idx} className="tech-item-row out-item">
                     <div className="item-icon-box red-box">
-                      <IconC size={15} />
+                      <IconC size={16} />
                     </div>
                     <div className="item-info">
                       <div className="item-title-row">
@@ -201,15 +199,19 @@ export default function ScopeLimitsSection() {
           </div>
         </div>
 
-        {/* Compact Commercial Policies Bottom Strip */}
+        {/* Commercial Policies Bottom Strip */}
         <div className="policies-compact-strip reveal-scale">
           {policies.map((pol, idx) => {
             const IconP = pol.icon;
             return (
               <div key={idx} className="policy-strip-item">
-                <IconP size={16} className="policy-strip-icon" />
-                <span className="policy-strip-title">{pol.title}</span>
-                <span className="policy-strip-val">{pol.value}</span>
+                <div className="policy-strip-icon-box">
+                  <IconP size={16} />
+                </div>
+                <div className="policy-strip-content">
+                  <span className="policy-strip-title">{pol.title}</span>
+                  <span className="policy-strip-val">{pol.value}</span>
+                </div>
               </div>
             );
           })}
@@ -217,20 +219,18 @@ export default function ScopeLimitsSection() {
       </div>
 
       <style>{`
-        .scope-limits-tech-section {
-          background-color: #0A0E17 !important;
+        .scope-limits-light-section {
+          background-color: var(--bg-alt);
           background-image: 
-            radial-gradient(circle at 15% 30%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
-            radial-gradient(circle at 85% 30%, rgba(239, 68, 68, 0.1) 0%, transparent 45%),
-            radial-gradient(circle at 50% 90%, rgba(239, 68, 68, 0.06) 0%, transparent 55%),
-            linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-          background-size: 100% 100%, 100% 100%, 100% 100%, 32px 32px, 32px 32px;
-          padding-top: 24px !important;
-          padding-bottom: 24px !important;
-          min-height: auto !important;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.04) 0%, transparent 40%),
+            radial-gradient(circle at 90% 20%, rgba(239, 68, 68, 0.04) 0%, transparent 40%),
+            linear-gradient(rgba(226, 232, 240, 0.5) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(226, 232, 240, 0.5) 1px, transparent 1px);
+          background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+          padding-top: 36px !important;
+          padding-bottom: 36px !important;
+          border-top: 1px solid var(--border-subtle);
+          border-bottom: 1px solid var(--border-subtle);
           position: relative;
         }
 
@@ -239,39 +239,15 @@ export default function ScopeLimitsSection() {
         }
 
         .header-compact {
-          margin-bottom: 12px !important;
-        }
-
-        .tech-badge {
-          background: rgba(239, 68, 68, 0.15) !important;
-          border: 1px solid rgba(239, 68, 68, 0.35) !important;
-          color: #EF4444 !important;
-          font-size: 0.74rem !important;
-          padding: 2px 10px !important;
-          margin-bottom: 4px !important;
-        }
-
-        .tech-title {
-          font-family: 'Chakra Petch', 'Plus Jakarta Sans', sans-serif;
-          color: #FFFFFF !important;
-          font-size: 1.45rem !important;
-          text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
-          margin-bottom: 3px !important;
-          line-height: 1.2;
-        }
-
-        .tech-desc {
-          color: #94A3B8 !important;
-          font-size: 0.84rem !important;
-          margin-bottom: 0 !important;
+          margin-bottom: 16px !important;
         }
 
         /* 2-Column Symmetrical Grid */
         .scope-comparison-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
-          margin-bottom: 10px;
+          gap: 18px;
+          margin-bottom: 14px;
         }
 
         @media (max-width: 900px) {
@@ -281,41 +257,39 @@ export default function ScopeLimitsSection() {
           }
         }
 
-        /* Tech Container Cards */
-        .scope-card-tech {
-          background: #0E1626;
-          border-radius: 16px;
-          padding: 12px 16px 10px 16px;
+        /* Container Cards */
+        .scope-card {
+          background: #FFFFFF;
+          border-radius: 18px;
+          padding: 16px 18px 14px 18px;
           position: relative;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-          backdrop-filter: blur(12px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
           display: flex;
           flex-direction: column;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .scope-card-tech:hover {
-          transform: translateY(-2px);
+        .scope-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
         }
 
-        /* In-Scope Green Accent */
+        /* In-Scope Green Card */
         .in-scope-card {
-          border: 1px solid rgba(16, 185, 129, 0.28);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(16, 185, 129, 0.06);
+          border: 1.5px solid #A7F3D0;
         }
 
         .in-scope-card:hover {
-          border-color: rgba(16, 185, 129, 0.5);
+          border-color: #34D399;
         }
 
-        /* Out-Scope Red Accent */
+        /* Out-Scope Red Card */
         .out-scope-card {
-          border: 1px solid rgba(239, 68, 68, 0.28);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(239, 68, 68, 0.06);
+          border: 1.5px solid #FECDD3;
         }
 
         .out-scope-card:hover {
-          border-color: rgba(239, 68, 68, 0.5);
+          border-color: #F87171;
         }
 
         /* Card Top Header */
@@ -323,67 +297,59 @@ export default function ScopeLimitsSection() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding-bottom: 8px;
-          margin-bottom: 8px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+          padding-bottom: 10px;
+          margin-bottom: 10px;
+          border-bottom: 1px solid var(--border-subtle);
         }
 
         .header-left {
           display: flex;
           align-items: center;
           gap: 8px;
-          flex-wrap: wrap;
         }
 
         .scope-icon-pill {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          padding: 3px 10px;
+          padding: 4px 12px;
           border-radius: 9999px;
           font-weight: 800;
-          font-size: 0.82rem;
+          font-size: 0.88rem;
           letter-spacing: 0.01em;
         }
 
         .green-pill {
-          background: rgba(16, 185, 129, 0.15);
-          border: 1px solid rgba(16, 185, 129, 0.4);
-          color: #34D399;
+          background: #ECFDF5;
+          border: 1px solid #A7F3D0;
+          color: #047857;
         }
 
         .red-pill {
-          background: rgba(239, 68, 68, 0.15);
-          border: 1px solid rgba(239, 68, 68, 0.4);
-          color: #F87171;
-        }
-
-        .tech-system-tag {
-          font-family: 'Chakra Petch', monospace;
-          font-size: 0.64rem;
-          font-weight: 700;
-          letter-spacing: 0.06em;
-        }
-
-        .green-tag {
-          color: rgba(52, 211, 153, 0.7);
-        }
-
-        .red-tag {
-          color: rgba(248, 113, 113, 0.7);
+          background: #FFF1F2;
+          border: 1px solid #FECDD3;
+          color: #BE123C;
         }
 
         /* Robot Head Mini Badge */
         .robot-badge-peek {
-          width: 30px;
-          height: 30px;
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.12);
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+        }
+
+        .green-robot-badge {
+          background: #ECFDF5;
+          border: 1px solid #A7F3D0;
+        }
+
+        .red-robot-badge {
+          background: #FFF1F2;
+          border: 1px solid #FECDD3;
         }
 
         .robot-mini-img {
@@ -400,29 +366,46 @@ export default function ScopeLimitsSection() {
         .scope-items-grid {
           display: flex;
           flex-direction: column;
-          gap: 6px;
+          gap: 8px;
         }
 
         .tech-item-row {
           display: flex;
           align-items: center;
-          gap: 10px;
-          padding: 6px 10px;
-          border-radius: 10px;
-          background: rgba(255, 255, 255, 0.025);
-          border: 1px solid rgba(255, 255, 255, 0.04);
+          gap: 12px;
+          padding: 9px 6px;
+          border-radius: 8px;
+          background: transparent;
+          border-bottom: 1px solid rgba(226, 232, 240, 0.7);
           transition: all 0.2s ease;
         }
 
-        .tech-item-row:hover {
-          background: rgba(255, 255, 255, 0.05);
-          transform: translateX(2px);
+        .tech-item-row:last-child {
+          border-bottom: none;
+        }
+
+        .in-item {
+          background: transparent;
+        }
+
+        .in-item:hover {
+          background: #F8FAFC;
+          transform: translateX(3px);
+        }
+
+        .out-item {
+          background: transparent;
+        }
+
+        .out-item:hover {
+          background: #F8FAFC;
+          transform: translateX(3px);
         }
 
         .item-icon-box {
-          width: 28px;
-          height: 28px;
-          border-radius: 6px;
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -430,15 +413,15 @@ export default function ScopeLimitsSection() {
         }
 
         .green-box {
-          background: rgba(16, 185, 129, 0.12);
-          color: #34D399;
-          border: 1px solid rgba(16, 185, 129, 0.25);
+          background: #D1FAE5;
+          color: #059669;
+          border: 1px solid #A7F3D0;
         }
 
         .red-box {
-          background: rgba(239, 68, 68, 0.12);
-          color: #F87171;
-          border: 1px solid rgba(239, 68, 68, 0.25);
+          background: #FEE2E2;
+          color: #DC2626;
+          border: 1px solid #FECDD3;
         }
 
         .item-info {
@@ -449,114 +432,110 @@ export default function ScopeLimitsSection() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 6px;
+          gap: 8px;
+          margin-bottom: 2px;
         }
 
         .item-title {
-          font-size: 0.8rem;
+          font-size: 0.88rem;
           font-weight: 700;
-          color: #FFFFFF;
-          margin: 0;
-          line-height: 1.2;
-        }
-
-        .item-tag-badge {
-          font-size: 0.65rem;
-          font-weight: 700;
-          padding: 1px 6px;
-          border-radius: 4px;
-          white-space: nowrap;
-        }
-
-        .green-badge {
-          background: rgba(16, 185, 129, 0.18);
-          color: #6EE7B7;
-          border: 1px solid rgba(16, 185, 129, 0.25);
-        }
-
-        .red-badge {
-          background: rgba(239, 68, 68, 0.18);
-          color: #FCA5A5;
-          border: 1px solid rgba(239, 68, 68, 0.25);
-        }
-
-        .item-sub-desc {
-          font-size: 0.68rem;
-          color: #94A3B8;
+          color: var(--secondary);
           margin: 0;
           line-height: 1.25;
         }
 
-        /* Compact Policies Bottom Strip */
+        .item-tag-badge {
+          font-size: 0.7rem;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 6px;
+          white-space: nowrap;
+        }
+
+        .green-badge {
+          background: #D1FAE5;
+          color: #065F46;
+          border: 1px solid #A7F3D0;
+        }
+
+        .red-badge {
+          background: #FEE2E2;
+          color: #991B1B;
+          border: 1px solid #FECDD3;
+        }
+
+        .item-sub-desc {
+          font-size: 0.76rem;
+          color: var(--text-muted);
+          margin: 0;
+          line-height: 1.35;
+        }
+
+        /* Commercial Policies Bottom Strip */
         .policies-compact-strip {
           display: grid;
-          grid-template-columns: 1.15fr 1fr 1fr;
-          gap: 12px;
-          background: #0E1626;
-          border: 1px solid rgba(239, 68, 68, 0.2);
-          border-radius: 12px;
-          padding: 8px 14px;
-          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+          grid-template-columns: repeat(3, 1fr);
+          gap: 14px;
+          margin-top: 14px;
           width: 100%;
-          box-sizing: border-box;
         }
 
         @media (max-width: 992px) {
           .policies-compact-strip {
             grid-template-columns: 1fr;
-            gap: 8px;
-            padding: 10px 12px;
+            gap: 10px;
           }
         }
 
         .policy-strip-item {
           display: flex;
           align-items: center;
-          gap: 6px;
-          font-size: 0.73rem;
-          min-width: 0;
-          white-space: nowrap;
+          gap: 12px;
+          background: #FFFFFF;
+          border: 1px solid var(--border-subtle);
+          border-radius: 14px;
+          padding: 10px 16px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
-        .policy-strip-icon {
-          color: #EF4444;
+        .policy-strip-item:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+          border-color: rgba(211, 47, 47, 0.3);
+        }
+
+        .policy-strip-icon-box {
+          width: 34px;
+          height: 34px;
+          border-radius: 10px;
+          background: #FFF5F5;
+          border: 1px solid #FECDD3;
+          color: var(--primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
           flex-shrink: 0;
+        }
+
+        .policy-strip-content {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
         }
 
         .policy-strip-title {
           font-weight: 700;
-          color: #FFFFFF;
-          flex-shrink: 0;
-          white-space: nowrap;
+          font-size: 0.82rem;
+          color: var(--secondary);
+          line-height: 1.25;
         }
 
         .policy-strip-val {
-          color: #94A3B8;
-          min-width: 0;
-          white-space: nowrap;
-        }
-
-        @media (max-width: 992px) {
-          .policy-strip-item {
-            flex-wrap: wrap;
-            gap: 4px 6px;
-            white-space: normal;
-          }
-          .policy-strip-title {
-            white-space: normal;
-          }
-          .policy-strip-val {
-            white-space: normal;
-          }
-          .tech-title {
-            font-size: 1.25rem !important;
-          }
-          .scope-card-tech {
-            padding: 12px 12px 10px 12px;
-          }
-          .item-title-row {
-            flex-wrap: wrap;
-          }
+          color: var(--text-muted);
+          font-size: 0.77rem;
+          line-height: 1.35;
         }
       `}</style>
     </section>
