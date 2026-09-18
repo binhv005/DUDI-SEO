@@ -116,17 +116,16 @@ export default function ProcessSection() {
       <style>{`
         .process-section {
           background: linear-gradient(180deg, 
-            #FAF5EE 0%, 
-            #F4E8D7 20%, 
-            #ECCFA8 50%, 
-            #DCAC6E 78%, 
-            #C8873E 100%
+            #878EE0 0%, 
+            #7B82D7 35%, 
+            #7279D0 70%, 
+            #646BC5 100%
           ) !important;
-          padding-top: 56px !important;
-          padding-bottom: 60px !important;
+          padding-top: 48px !important;
+          padding-bottom: 52px !important;
           position: relative;
-          border-top: 1px solid rgba(210, 145, 75, 0.25);
-          border-bottom: 1px solid rgba(190, 120, 50, 0.35);
+          border-top: 1px solid rgba(255, 255, 255, 0.25);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.25);
         }
 
         .process-section::before {
@@ -134,9 +133,9 @@ export default function ProcessSection() {
           position: absolute;
           inset: 0;
           background-image: 
-            radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.6) 0%, transparent 60%),
-            radial-gradient(circle at 80% 90%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 20% 80%, rgba(160, 90, 25, 0.12) 0%, transparent 50%);
+            radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.35) 0%, transparent 60%),
+            radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
+            radial-gradient(circle at 15% 85%, rgba(0, 0, 0, 0.08) 0%, transparent 50%);
           pointer-events: none;
           z-index: 1;
         }
@@ -147,22 +146,23 @@ export default function ProcessSection() {
         }
 
         .process-section .section-badge {
-          background: rgba(255, 255, 255, 0.85) !important;
-          border: 1px solid rgba(185, 28, 28, 0.25) !important;
-          color: #B91C1C !important;
+          background: #FFFFFF !important;
+          border: 1px solid rgba(255, 255, 255, 0.6) !important;
+          color: #DC2626 !important;
           margin-bottom: 8px;
-          box-shadow: 0 2px 8px rgba(180, 83, 9, 0.08);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .process-section .section-title {
           font-family: var(--font-heading);
-          color: #1F150D !important;
+          color: #FFFFFF !important;
           margin-bottom: 6px !important;
           font-weight: 800;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
 
         .process-section .section-desc {
-          color: #4A3525 !important;
+          color: rgba(255, 255, 255, 0.92) !important;
           max-width: 680px;
           margin: 0 auto;
           font-weight: 500;
@@ -185,14 +185,14 @@ export default function ProcessSection() {
         .dash-accent .dash-bar {
           width: 30px;
           height: 2px;
-          background: #D32F2F;
+          background: rgba(255, 255, 255, 0.85);
           border-radius: 2px;
         }
 
         .dash-accent .dash-dot {
           width: 6px;
           height: 6px;
-          background: #D32F2F;
+          background: rgba(255, 255, 255, 0.95);
           border-radius: 50%;
         }
 
@@ -210,7 +210,7 @@ export default function ProcessSection() {
           padding: 0 10px;
         }
 
-        /* Horizontal Connecting Red Dashed Line (Desktop) */
+        /* Horizontal Connecting Dashed Line (Desktop) */
         .timeline-track-wrapper {
           position: absolute;
           top: 31px;
@@ -223,14 +223,14 @@ export default function ProcessSection() {
         .timeline-track-glow {
           position: absolute;
           inset: -3px 0;
-          background: rgba(211, 47, 47, 0.2);
+          background: rgba(255, 255, 255, 0.35);
           filter: blur(4px);
         }
 
         .timeline-track-line {
           position: absolute;
           inset: 0;
-          border-top: 2px dashed rgba(211, 47, 47, 0.7);
+          border-top: 2px dashed rgba(255, 255, 255, 0.75);
         }
 
         .timeline-laser-pulse {
@@ -239,7 +239,7 @@ export default function ProcessSection() {
           left: 0;
           width: 80px;
           height: 6px;
-          background: linear-gradient(90deg, transparent, #EF4444, #FFFFFF, #EF4444, transparent);
+          background: linear-gradient(90deg, transparent, #FFFFFF, #FECDD3, #FFFFFF, transparent);
           border-radius: 4px;
           filter: blur(1px);
           animation: laserTravel 5s ease-in-out infinite;
@@ -292,10 +292,10 @@ export default function ProcessSection() {
           justify-content: center;
           margin-bottom: 12px;
           z-index: 3;
-          background: #FAF5EE;
+          background: rgba(255, 255, 255, 0.95);
           border-radius: 50%;
           padding: 4px;
-          box-shadow: 0 4px 16px rgba(140, 75, 20, 0.18);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
         }
 
         .node-icon-circle {
@@ -306,14 +306,14 @@ export default function ProcessSection() {
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 6px 20px rgba(211, 47, 47, 0.35), inset 0 0 10px rgba(255, 255, 255, 0.25);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25), inset 0 0 10px rgba(255, 255, 255, 0.35);
           transition: all 0.28s ease;
           position: relative;
           z-index: 2;
         }
 
         .timeline-step-node:hover .node-icon-circle {
-          box-shadow: 0 8px 28px rgba(211, 47, 47, 0.55), inset 0 0 14px rgba(255, 255, 255, 0.45);
+          box-shadow: 0 8px 28px rgba(220, 38, 38, 0.6), inset 0 0 14px rgba(255, 255, 255, 0.5);
           transform: scale(1.08);
         }
 
@@ -323,7 +323,7 @@ export default function ProcessSection() {
           width: 78px;
           height: 78px;
           border-radius: 50%;
-          border: 1.8px dashed #DC2626;
+          border: 2px dashed rgba(255, 255, 255, 0.9);
           animation: peakRingSpin 24s linear infinite;
         }
 
@@ -347,7 +347,7 @@ export default function ProcessSection() {
           pointer-events: none;
           z-index: 10;
           transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-          filter: drop-shadow(0 6px 14px rgba(185, 28, 28, 0.35));
+          filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.3));
         }
 
         .hover-robot-img {
@@ -370,7 +370,7 @@ export default function ProcessSection() {
           font-size: 0.78rem;
           padding: 3px 12px;
           border-radius: 9999px;
-          box-shadow: 0 2px 10px rgba(211, 47, 47, 0.28);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
           margin-bottom: 6px;
           letter-spacing: 0.01em;
           white-space: nowrap;
@@ -380,9 +380,10 @@ export default function ProcessSection() {
         .node-title {
           font-size: 0.92rem;
           font-weight: 800;
-          color: #1F150D;
+          color: #FFFFFF;
           margin-bottom: 4px;
           line-height: 1.25;
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
         }
 
         /* Detailed Description - Warm Frosted Glass Tooltip on Desktop Hover */

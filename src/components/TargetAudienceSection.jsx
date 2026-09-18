@@ -1,12 +1,16 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Sparkles, TrendingUp, Trophy } from 'lucide-react';
 
 export default function TargetAudienceSection({ onSelectPackage }) {
   const targetGroups = [
     {
+      num: '01',
       badge: 'Gói Cơ bản',
       target: 'Website mới hoặc chưa có nền SEO',
-      image: '/audience-newsite.webp',
+      patternTitle: 'NỀN TẢNG',
+      icon: <Sparkles size={26} strokeWidth={2.4} color="#FFFFFF" />,
+      theme: 'red',
+      color: '#DC2626',
       needs: 'Cần kiểm tra lỗi index chính, tối ưu On-page cơ bản (title, meta, heading) và xây dựng 2 - 4 bài viết chuẩn SEO mỗi tháng.',
       keywords: '5 đến 10 từ khóa ưu tiên',
       suggestedPackage: 'Cơ bản',
@@ -14,9 +18,13 @@ export default function TargetAudienceSection({ onSelectPackage }) {
       anchor: '#s06-bang-gia'
     },
     {
+      num: '02',
       badge: 'Gói Tiêu chuẩn',
       target: 'Doanh nghiệp cần tăng traffic đều',
-      image: '/audience-traffic.webp',
+      patternTitle: 'TĂNG TRƯỞNG',
+      icon: <TrendingUp size={26} strokeWidth={2.4} color="#FFFFFF" />,
+      theme: 'blue',
+      color: '#2563EB',
       needs: 'Cần nghiên cứu ý định tìm kiếm và đối thủ, audit kỹ thuật cơ bản, sản xuất 6 - 10 bài viết chuyên sâu và thiết lập theo dõi GSC/GA4.',
       keywords: '10 đến 30 từ khóa ưu tiên',
       suggestedPackage: 'Tiêu chuẩn',
@@ -25,9 +33,13 @@ export default function TargetAudienceSection({ onSelectPackage }) {
       featured: true
     },
     {
+      num: '03',
       badge: 'Gói Cao cấp',
       target: 'Thị trường cạnh tranh và nhiều nhóm dịch vụ',
-      image: '/audience-enterprise.webp',
+      patternTitle: 'CHUYÊN SÂU',
+      icon: <Trophy size={26} strokeWidth={2.4} color="#FFFFFF" />,
+      theme: 'purple',
+      color: '#7C3AED',
       needs: 'Cần nghiên cứu cụm chủ đề chuyên sâu, audit theo cụm trang & chuyển đổi, 10 - 20 bài viết/tháng, phân tích funnel và họp chiến lược 60 phút.',
       keywords: '30 đến 60 từ khóa ưu tiên',
       suggestedPackage: 'Cao cấp',
@@ -50,15 +62,62 @@ export default function TargetAudienceSection({ onSelectPackage }) {
         <div className="audience-grid">
           {targetGroups.map((group, idx) => (
             <div key={idx} className={`custom-card audience-card reveal-flip stagger-${idx + 1} ${group.featured ? 'featured-card' : ''}`}>
-              {/* Card Top Image Header */}
-              <div className="audience-card-img-wrap">
-                <img 
-                  src={group.image} 
-                  alt={group.target} 
-                  className="audience-card-img" 
-                  loading="lazy" 
-                />
-                <div className="audience-card-img-overlay" />
+              {/* Pattern Header Header */}
+              <div className={`audience-pattern-banner theme-${group.theme}`}>
+                {/* Top Badge: 01, 02, 03 */}
+                <div className="pattern-badge-pill">
+                  <span>{group.num}</span>
+                </div>
+
+                {/* Center Icon & Title */}
+                <div className="pattern-center-content">
+                  <div className="pattern-icon-wrap">
+                    {group.icon}
+                  </div>
+                  <span className="pattern-title-text">{group.patternTitle}</span>
+                </div>
+
+                {/* Wave & Floating Drops SVG Background */}
+                <svg 
+                  className="pattern-wave-canvas" 
+                  viewBox="0 0 320 125" 
+                  preserveAspectRatio="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id={`pattern-grad-${group.theme}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                      {group.theme === 'red' && (
+                        <>
+                          <stop offset="0%" stopColor="#E11D48" />
+                          <stop offset="100%" stopColor="#BE123C" />
+                        </>
+                      )}
+                      {group.theme === 'blue' && (
+                        <>
+                          <stop offset="0%" stopColor="#3B82F6" />
+                          <stop offset="100%" stopColor="#1D4ED8" />
+                        </>
+                      )}
+                      {group.theme === 'purple' && (
+                        <>
+                          <stop offset="0%" stopColor="#8B5CF6" />
+                          <stop offset="100%" stopColor="#6D28D9" />
+                        </>
+                      )}
+                    </linearGradient>
+                  </defs>
+
+                  {/* Liquid Wave Curve */}
+                  <path 
+                    d="M0,0 L320,0 L320,80 C270,105 210,65 150,85 C95,103 45,70 0,88 Z" 
+                    fill={`url(#pattern-grad-${group.theme})`} 
+                  />
+
+                  {/* Decorative Floating Drops */}
+                  <circle cx="34" cy="110" r="6" fill={group.color} opacity="0.9" />
+                  <circle cx="170" cy="114" r="5" fill={group.color} opacity="0.9" />
+                  <circle cx="286" cy="104" r="7" fill={group.color} opacity="0.9" />
+                </svg>
               </div>
 
               <div className="card-badge-row">
@@ -108,7 +167,7 @@ export default function TargetAudienceSection({ onSelectPackage }) {
           display: flex;
           flex-direction: column;
           background: #FFFFFF;
-          border-radius: 16px;
+          border-radius: 18px;
           padding: 20px 22px;
           overflow: hidden;
           transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -125,33 +184,75 @@ export default function TargetAudienceSection({ onSelectPackage }) {
           box-shadow: 0 8px 24px rgba(211, 47, 47, 0.12);
         }
 
-        /* Top Photography Image Container */
-        .audience-card-img-wrap {
+        /* Pattern Header Banner */
+        .audience-pattern-banner {
           position: relative;
           width: calc(100% + 44px);
-          height: 165px;
-          margin: -20px -22px 16px -22px;
+          height: 140px;
+          margin: -20px -22px 14px -22px;
           overflow: hidden;
-          background: #E2E8F0;
+          background: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
-        .audience-card-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.4s ease;
-        }
-
-        .audience-card:hover .audience-card-img {
-          transform: scale(1.06);
-        }
-
-        .audience-card-img-overlay {
+        .pattern-wave-canvas {
           position: absolute;
           inset: 0;
-          background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(15, 23, 42, 0.2) 100%);
+          width: 100%;
+          height: 100%;
+          z-index: 1;
           pointer-events: none;
+        }
+
+        .pattern-badge-pill {
+          position: absolute;
+          top: 12px;
+          left: 16px;
+          z-index: 3;
+          background: rgba(255, 255, 255, 0.2);
+          border: 1.5px solid rgba(255, 255, 255, 0.45);
+          color: #FFFFFF;
+          font-weight: 800;
+          font-size: 0.78rem;
+          padding: 2px 9px;
+          border-radius: 999px;
+          backdrop-filter: blur(4px);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+          line-height: 1.3;
+        }
+
+        .pattern-center-content {
+          position: relative;
+          z-index: 3;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          margin-top: -18px;
+          transition: transform 0.3s ease;
+        }
+
+        .audience-card:hover .pattern-center-content {
+          transform: translateY(-2px) scale(1.04);
+        }
+
+        .pattern-icon-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+        }
+
+        .pattern-title-text {
+          color: #FFFFFF;
+          font-weight: 900;
+          font-size: 1.02rem;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .card-badge-row {
@@ -220,3 +321,4 @@ export default function TargetAudienceSection({ onSelectPackage }) {
     </section>
   );
 }
+

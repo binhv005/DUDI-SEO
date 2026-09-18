@@ -45,10 +45,13 @@ export default function Header() {
       <div className="container header-container">
         {/* Logo & Brand */}
         <a href="#s02-hero" className="brand-logo-link">
-          <img src="/logo.webp" alt="DUDI SOFTWARE Logo" className="brand-logo" />
-          <span className="brand-text">
-            DUDI <span className="brand-highlight">SOFTWARE</span>
-          </span>
+          <div className="brand-text-logo">
+            <div className="brand-main-row">
+              <span className="brand-dudi">DUDI</span>
+              <span className="brand-software">SOFTWARE</span>
+            </div>
+            <div className="brand-sub-tagline">TECHNOLOGY SOLUTIONS HUB</div>
+          </div>
         </a>
 
         {/* Desktop Navigation */}
@@ -194,11 +197,12 @@ export default function Header() {
           top: 0;
           left: 0;
           right: 0;
+          width: 100%;
           background: rgba(255, 255, 255, 0.96);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border-bottom: 1px solid var(--border-subtle);
-          z-index: 100;
+          z-index: 1000;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
@@ -213,24 +217,49 @@ export default function Header() {
         .brand-logo-link {
           display: flex;
           align-items: center;
-          gap: 10px;
           text-decoration: none;
-          color: var(--secondary);
-          font-weight: 800;
-          font-size: 1.15rem;
-          letter-spacing: -0.5px;
           flex-shrink: 0;
+          transition: transform 0.2s ease;
         }
 
-        .brand-logo {
-          height: 38px;
-          width: auto;
-          object-fit: contain;
-          border-radius: 0;
+        .brand-logo-link:hover {
+          transform: translateY(-1px);
         }
 
-        .brand-highlight {
-          color: var(--primary);
+        .brand-text-logo {
+          display: flex;
+          flex-direction: column;
+          line-height: 1;
+        }
+
+        .brand-main-row {
+          display: flex;
+          align-items: baseline;
+          gap: 6px;
+          font-family: var(--font-heading);
+          font-size: 1.32rem;
+          font-weight: 900;
+          letter-spacing: -0.01em;
+          line-height: 1.1;
+        }
+
+        .brand-dudi {
+          color: #0F172A;
+          font-weight: 900;
+        }
+
+        .brand-software {
+          color: #EF4444;
+          font-weight: 900;
+        }
+
+        .brand-sub-tagline {
+          font-size: 0.62rem;
+          font-weight: 700;
+          color: #94A3B8;
+          letter-spacing: 0.16em;
+          margin-top: 2px;
+          text-transform: uppercase;
         }
 
         .desktop-nav {

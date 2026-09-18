@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MapPin, FileText, ArrowUp, ShieldCheck, MessageSquare } from 'lucide-react';
+import { Phone, Mail, MapPin, FileText, ArrowUp, ShieldCheck, MessageSquare, Globe } from 'lucide-react';
 
 export default function Footer({ onNotify }) {
   const phoneNumber = '0909 163 821';
@@ -33,10 +33,13 @@ export default function Footer({ onNotify }) {
           {/* Cột 1: Thông tin doanh nghiệp */}
           <div className="sample-footer-col col-info">
             <div className="sample-brand-row">
-              <img src="/logo.webp" alt="DUDI Software" className="sample-footer-logo" />
-              <span className="sample-brand-name">
-                DUDI <span className="sample-brand-red">Software</span>
-              </span>
+              <div className="brand-text-logo footer-text-logo">
+                <div className="brand-main-row">
+                  <span className="brand-dudi footer-dudi">DUDI</span>
+                  <span className="brand-software">SOFTWARE</span>
+                </div>
+                <div className="brand-sub-tagline footer-tagline">TECHNOLOGY SOLUTIONS HUB</div>
+              </div>
             </div>
 
             <h4 className="sample-company-name">Công ty TNHH Giải Pháp Phần Mềm DUDI</h4>
@@ -133,12 +136,17 @@ export default function Footer({ onNotify }) {
         {/* Bottom Bar */}
         <div className="sample-footer-bottom">
           <div className="sample-copyright">
-            Copyright © 2026 DUDI Software. All rights reserved.
+            © 2024 CÔNG TY TNHH GIẢI PHÁP PHẦN MỀM DUDI. All rights reserved.
           </div>
-          <div className="sample-verified">
-            <ShieldCheck size={18} color="#10B981" />
-            <span>Thông tin đăng ký kinh doanh chính thức</span>
-          </div>
+          <a 
+            href="https://dudisoftware.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="sample-domain-badge"
+          >
+            <Globe size={15} className="domain-icon" />
+            <span>dudisoftware.com</span>
+          </a>
         </div>
       </div>
 
@@ -173,26 +181,43 @@ export default function Footer({ onNotify }) {
         .sample-brand-row {
           display: flex;
           align-items: center;
-          gap: 10px;
           margin-bottom: 12px;
         }
 
-        .sample-footer-logo {
-          height: 32px;
-          width: auto;
-          object-fit: contain;
-          border-radius: 0;
+        .brand-text-logo {
+          display: flex;
+          flex-direction: column;
+          line-height: 1;
         }
 
-        .sample-brand-name {
-          font-size: 1.15rem;
-          font-weight: 800;
-          color: #FFFFFF;
-          letter-spacing: -0.5px;
+        .footer-text-logo .brand-main-row {
+          display: flex;
+          align-items: baseline;
+          gap: 6px;
+          font-family: var(--font-heading);
+          font-size: 1.35rem;
+          font-weight: 900;
+          letter-spacing: -0.01em;
+          line-height: 1.1;
         }
 
-        .sample-brand-red {
+        .footer-dudi {
+          color: #FFFFFF !important;
+          font-weight: 900;
+        }
+
+        .brand-software {
           color: #EF4444;
+          font-weight: 900;
+        }
+
+        .footer-tagline {
+          font-size: 0.62rem;
+          font-weight: 700;
+          color: #94A3B8 !important;
+          letter-spacing: 0.16em;
+          margin-top: 2px;
+          text-transform: uppercase;
         }
 
         .sample-company-name {
@@ -344,12 +369,31 @@ export default function Footer({ onNotify }) {
           color: #94A3B8;
         }
 
-        .sample-verified {
-          display: flex;
+        .sample-domain-badge {
+          display: inline-flex;
           align-items: center;
-          gap: 6px;
-          color: #CBD5E1;
-          font-weight: 500;
+          gap: 7px;
+          padding: 5px 14px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 9999px;
+          color: #E2E8F0;
+          font-size: 0.84rem;
+          font-weight: 600;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .sample-domain-badge:hover {
+          background: rgba(239, 68, 68, 0.1);
+          border-color: rgba(239, 68, 68, 0.4);
+          color: #FFFFFF;
+          transform: translateY(-1px);
+        }
+
+        .domain-icon {
+          color: #EF4444;
+          flex-shrink: 0;
         }
       `}</style>
     </footer>

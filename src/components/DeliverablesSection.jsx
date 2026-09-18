@@ -190,15 +190,6 @@ export default function DeliverablesSection() {
           {marqueeItems.map((item, idx) => (
             <React.Fragment key={idx}>
               <div className="deliverable-card">
-                {/* Top Number Badge */}
-                <div className="deliverable-notch">
-                  <div className="notch-outer-ring">
-                    <div className="notch-inner-ring">
-                      <span className="notch-number">{item.step.replace(/^0/, '')}</span>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Card Inner Content */}
                 <div className="deliverable-card-body">
                   <div className="deliverable-icon-wrap">
@@ -226,25 +217,37 @@ export default function DeliverablesSection() {
       <style>{`
         .deliverables-light-section {
           position: relative;
-          background-color: var(--bg-white);
-          background-image: 
-            radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.04) 0%, transparent 60%),
-            radial-gradient(circle at 90% 80%, rgba(239, 68, 68, 0.03) 0%, transparent 50%),
-            linear-gradient(rgba(226, 232, 240, 0.4) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
-          background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
-          padding: 56px 0 46px 0;
-          border-top: 1px solid var(--border-subtle);
-          border-bottom: 1px solid var(--border-subtle);
+          min-height: auto !important;
+          background: linear-gradient(180deg, #BA1C1C 0%, #A81B1B 45%, #941717 100%) !important;
+          padding: 32px 0 26px 0 !important;
+          border-top: 1px solid rgba(255, 255, 255, 0.25);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.25);
           user-select: none;
+        }
+
+        .deliverables-light-section .section-badge {
+          background: #FFFFFF !important;
+          color: #B91C1C !important;
+          border: 1px solid rgba(255, 255, 255, 0.8) !important;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          margin-bottom: 8px;
+        }
+
+        .deliverables-light-section .section-title {
+          color: #FFFFFF !important;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .deliverables-light-section .section-desc {
+          color: rgba(255, 255, 255, 0.92) !important;
         }
 
         .deliverables-marquee-wrapper {
           position: relative;
           width: 100%;
           overflow: hidden;
-          padding: 36px 0 24px 0;
-          margin-top: 8px;
+          padding: 16px 0 16px 0;
+          margin-top: 4px;
           cursor: grab;
           mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
           -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
@@ -263,69 +266,27 @@ export default function DeliverablesSection() {
           will-change: transform;
         }
 
-        /* Light Card Structure */
+        /* Light Card Structure on Red Background */
         .deliverable-card {
           position: relative;
           flex: 0 0 280px;
           width: 280px;
           background: #FFFFFF;
-          border: 1px solid var(--border-subtle);
+          border: 1px solid rgba(255, 255, 255, 0.6);
           border-radius: 20px;
-          padding: 38px 20px 22px 20px;
+          padding: 22px 20px 20px 20px;
           display: flex;
           flex-direction: column;
           align-items: center;
           text-align: center;
-          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-          transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+          transition: transform 0.28s ease, box-shadow 0.28s ease;
           pointer-events: auto;
         }
 
         .deliverable-card:hover {
           transform: translateY(-5px);
-          border-color: rgba(211, 47, 47, 0.4);
-          box-shadow: 0 14px 32px rgba(211, 47, 47, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Top Notch with Number Ring */
-        .deliverable-notch {
-          position: absolute;
-          top: -22px;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 5;
-        }
-
-        .notch-outer-ring {
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          background: linear-gradient(145deg, #DC2626 0%, #EF4444 100%);
-          padding: 2.5px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 12px rgba(211, 47, 47, 0.35);
-        }
-
-        .notch-inner-ring {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-          background: #FFFFFF;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .notch-number {
-          font-family: var(--font-main);
-          font-size: 1.05rem;
-          font-weight: 800;
-          color: #D32F2F;
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
         }
 
         /* Body Elements */
@@ -346,29 +307,36 @@ export default function DeliverablesSection() {
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: transform 0.28s ease, background-color 0.28s ease;
+          transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
+          box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
         }
 
         .deliverable-card:hover .deliverable-icon-wrap {
           transform: scale(1.08);
-          background: #FEE2E2;
+          background: #DC2626;
+          box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
         }
 
         .deliverable-icon {
-          color: #D32F2F;
+          color: #DC2626;
+          transition: color 0.25s ease;
+        }
+
+        .deliverable-card:hover .deliverable-icon {
+          color: #FFFFFF;
         }
 
         .deliverable-card-title {
           font-size: 0.96rem;
           font-weight: 800;
-          color: var(--secondary);
+          color: #0F172A;
           margin-bottom: 0;
           line-height: 1.35;
           transition: color 0.2s ease, margin-bottom 0.25s ease;
         }
 
         .deliverable-card:hover .deliverable-card-title {
-          color: var(--primary);
+          color: #DC2626;
           margin-bottom: 6px;
         }
 
@@ -379,7 +347,7 @@ export default function DeliverablesSection() {
           transform: translateY(6px);
           transition: opacity 0.28s ease, transform 0.28s ease, max-height 0.28s ease, margin-top 0.28s ease;
           font-size: 0.82rem;
-          color: var(--text-muted);
+          color: #475569;
           line-height: 1.5;
           margin: 0;
           pointer-events: none;
@@ -404,27 +372,27 @@ export default function DeliverablesSection() {
 
         .connector-line {
           width: 16px;
-          height: 1.5px;
-          background: #FECDD3;
+          height: 2px;
+          background: rgba(255, 255, 255, 0.65);
         }
 
         .connector-dot {
-          width: 12px;
-          height: 12px;
+          width: 13px;
+          height: 13px;
           border-radius: 50%;
-          border: 1.5px solid #EF4444;
+          border: 1.5px solid #FFFFFF;
           background: #FFFFFF;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 6px rgba(239, 68, 68, 0.25);
+          box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
         }
 
         .dot-inner {
-          width: 4px;
-          height: 4px;
+          width: 5px;
+          height: 5px;
           border-radius: 50%;
-          background: #EF4444;
+          background: #B91C1C;
         }
 
         @media (max-width: 640px) {
