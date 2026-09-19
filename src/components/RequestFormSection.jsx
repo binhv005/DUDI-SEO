@@ -101,16 +101,63 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsSubmitting(true);
+
+    const randomSuffix = Math.floor(100000 + Math.random() * 900000);
+    const fbLeadId = 'DUDI-' + randomSuffix;
+    const fbCreatedAt = new Date().toISOString();
+    const goalsText = (formData.goals || []).join(', ') || 'Tăng trưởng traffic & từ khóa';
+    const requirementsText = `Website: ${formData.website.trim()} | Ngành: ${formData.industry || 'Chưa rõ'} | Địa điểm: ${formData.location || 'Toàn quốc'} | Mục tiêu: ${goalsText} | Ghi chú: ${formData.description || 'Không có'}`;
+
+    // =========================================================================
+    // ⚡ 1. GỬI TRỰC TIẾP VÀO FIREBASE FIRESTORE (DASHBOARD REALTIME VERCEL)
+    // =========================================================================
+    const FIREBASE_PROJECT_ID = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_FIREBASE_PROJECT_ID) || 'dudi-leads';
+    const FIREBASE_API_KEY = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_FIREBASE_API_KEY) || 'AIzaSyBv2l4OH6dtaBqCx5D_rxtDT2HkMPfZ3kA';
+
+    try {
+      const fbUrl = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents/leads/${fbLeadId}?key=${FIREBASE_API_KEY}`;
+      
+      const fbPayload = {
+        fields: {
+          id: { stringValue: fbLeadId },
+          customerName: { stringValue: formData.fullName.trim() || 'Khách hàng' },
+          phone: { stringValue: formData.phone.trim() || 'Chưa cung cấp' },
+          email: { stringValue: 'Chưa cung cấp' },
+          company: { stringValue: formData.website.trim() || 'Khách cá nhân' },
+          serviceId: { stringValue: 'dudisoftwareseo' },
+          serviceName: { stringValue: 'SEO Web Tổng Thể' },
+          budget: { stringValue: formData.budget || formData.packageInterest || 'Gói SEO Chuyên Nghiệp' },
+          source: { stringValue: 'Website SEO Web Tổng Thể' },
+          sourceUrl: { stringValue: typeof window !== 'undefined' ? window.location.href : 'https://dudisoftwareseo.vercel.app' },
+          status: { stringValue: 'new' },
+          priority: { stringValue: 'high' },
+          createdAt: { stringValue: fbCreatedAt },
+          requirements: { stringValue: requirementsText }
+        }
+      };
+
+      fetch(fbUrl, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fbPayload)
+      }).then(res => {
+        console.log('🔥 [Firebase Live] Lead synced to Dashboard:', fbLeadId, res.status);
+      }).catch(err => console.warn('Firebase sync warning:', err));
+    } catch (fbErr) {
+      console.warn('Firebase error:', fbErr);
+    }
+
     const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
 
     const payload = {
+      lead_id: fbLeadId,
       ...formData,
-      goals: formData.goals.join(', '),
+      goals: goalsText,
       submittedAt: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
     };
 
@@ -133,7 +180,6 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
       }
     } catch (err) {
       console.error('Error submitting form to Google Script:', err);
-      // Still show success if network error with no-cors or notify
       setSubmitted(true);
       if (onNotify) {
         onNotify('DUDI đã nhận website và sẽ liên hệ sớm nhất!', 'success');
@@ -141,23 +187,6 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleReset = () => {
-    setSubmitted(false);
-    setFormData({
-      website: '',
-      fullName: '',
-      phone: '',
-      industry: '',
-      location: '',
-      goals: ['Hiển thị', 'Traffic'],
-      primaryGoal: 'Traffic',
-      budget: '',
-      description: '',
-      packageInterest: ''
-    });
-    setErrors({});
   };
 
   return (
