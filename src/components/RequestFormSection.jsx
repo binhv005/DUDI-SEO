@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send, CheckCircle2, MessageSquare, RotateCcw } from 'lucide-react';
 
 export default function RequestFormSection({ selectedPackage, onNotify }) {
   const [formData, setFormData] = useState({
@@ -17,6 +17,7 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
 
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [submittedInfo, setSubmittedInfo] = useState({ leadId: '', fullName: '', phone: '', website: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const goalOptions = ['Hiển thị', 'Traffic', 'Lead', 'Bán hàng'];
@@ -24,7 +25,7 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
     { value: '', label: '-- Chọn ngân sách (Không bắt buộc) --' },
     { value: 'Dưới 5', label: 'Dưới 5 triệu' },
     { value: '5 đến 15', label: '5 đến 15 triệu' },
-    { value: 'trên 15 triệu', label: 'Trên 15 triệu' }
+    { value: 'Trên 15 triệu', label: 'Trên 15 triệu' }
   ];
 
   const handleGoalToggle = (goal) => {
@@ -53,6 +54,23 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
     setFormData({ ...formData, goals: newGoals });
   };
 
+  const handleReset = () => {
+    setSubmitted(false);
+    setFormData({
+      website: '',
+      fullName: '',
+      phone: '',
+      industry: '',
+      location: '',
+      goals: ['Hiển thị', 'Traffic'],
+      primaryGoal: 'Traffic',
+      budget: '',
+      description: '',
+      packageInterest: selectedPackage || ''
+    });
+    setErrors({});
+  };
+
   const validate = () => {
     const errs = {};
     const websiteTrimmed = formData.website.trim();
@@ -65,94 +83,88 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
     if (!formData.fullName.trim()) {
       errs.fullName = 'Vui lòng nhập họ và tên';
     } else if (formData.fullName.trim().length < 2 || formData.fullName.trim().length > 80) {
-      errs.fullName = '2 đến 80 ký tự';
+      errs.fullName = 'Họ và tên từ 2 đến 80 ký tự';
     }
 
     const phoneClean = formData.phone.replace(/[\s.-]/g, '');
     if (!phoneClean) {
       errs.phone = 'Vui lòng nhập số điện thoại hoặc Zalo';
     } else if (!/^\d{9,12}$/.test(phoneClean)) {
-      errs.phone = '9 đến 12 chữ số';
+      errs.phone = 'Số điện thoại từ 9 đến 12 chữ số';
     }
 
     if (!formData.industry.trim()) {
       errs.industry = 'Vui lòng nhập ngành nghề';
     } else if (formData.industry.trim().length < 2 || formData.industry.trim().length > 120) {
-      errs.industry = '2 đến 120 ký tự';
-    }
-
-    if (formData.location && formData.location.length > 100) {
-      errs.location = 'Tối đa 100 ký tự';
+      errs.industry = 'Ngành nghề từ 2 đến 120 ký tự';
     }
 
     if (formData.goals.length === 0) {
-      errs.goals = 'Hiển thị, traffic, lead hoặc bán hàng';
-    } else if (!formData.primaryGoal) {
-      errs.primaryGoal = 'Vui lòng chọn 1 mục tiêu ưu tiên';
+      errs.goals = 'Vui lòng chọn ít nhất 1 mục tiêu SEO';
     }
 
     if (!formData.description.trim()) {
-      errs.description = 'Vui lòng nhập mô tả';
-    } else if (formData.description.trim().length < 10 || formData.description.trim().length > 1000) {
-      errs.description = '10 đến 1000 ký tự';
+      errs.description = 'Vui lòng mô tả ít nhất 10 ký tự về nhu cầu hoặc tình trạng web';
+    } else if (formData.description.trim().length < 10) {
+      errs.description = 'Mô tả quá ngắn, vui lòng nhập tối thiểu 10 ký tự';
+    } else if (formData.description.trim().length > 500) {
+      errs.description = 'Mô tả tối đa 500 ký tự';
     }
 
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
-
-    setIsSubmitting(true);
-
-    const randomSuffix = Math.floor(100000 + Math.random() * 900000);
-    const fbLeadId = 'DUDI-' + randomSuffix;
-    const fbCreatedAt = new Date().toISOString();
-    const goalsText = (formData.goals || []).join(', ') || 'Tăng trưởng traffic & từ khóa';
-    const requirementsText = `Website: ${formData.website.trim()} | Ngành: ${formData.industry || 'Chưa rõ'} | Địa điểm: ${formData.location || 'Toàn quốc'} | Mục tiêu: ${goalsText} | Ghi chú: ${formData.description || 'Không có'}`;
-
-    // =========================================================================
-    // ⚡ 1. GỬI TRỰC TIẾP VÀO FIREBASE FIRESTORE (DASHBOARD REALTIME VERCEL)
-    // =========================================================================
-    const FIREBASE_PROJECT_ID = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_FIREBASE_PROJECT_ID) || 'dudi-leads';
-    const FIREBASE_API_KEY = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_FIREBASE_API_KEY) || 'AIzaSyBv2l4OH6dtaBqCx5D_rxtDT2HkMPfZ3kA';
-
-    try {
-      const fbUrl = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents/leads/${fbLeadId}?key=${FIREBASE_API_KEY}`;
-      
-      const fbPayload = {
-        fields: {
-          id: { stringValue: fbLeadId },
-          customerName: { stringValue: formData.fullName.trim() || 'Khách hàng' },
-          phone: { stringValue: formData.phone.trim() || 'Chưa cung cấp' },
-          email: { stringValue: 'Chưa cung cấp' },
-          company: { stringValue: formData.website.trim() || 'Khách cá nhân' },
-          serviceId: { stringValue: 'dudisoftwareseo' },
-          serviceName: { stringValue: 'SEO Web Tổng Thể' },
-          budget: { stringValue: formData.budget || formData.packageInterest || 'Gói SEO Chuyên Nghiệp' },
-          source: { stringValue: 'Website SEO Web Tổng Thể' },
-          sourceUrl: { stringValue: typeof window !== 'undefined' ? window.location.href : 'https://dudisoftwareseo.vercel.app' },
-          status: { stringValue: 'new' },
-          priority: { stringValue: 'high' },
-          createdAt: { stringValue: fbCreatedAt },
-          requirements: { stringValue: requirementsText }
-        }
-      };
-
-      fetch(fbUrl, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(fbPayload)
-      }).then(res => {
-        console.log('🔥 [Firebase Live] Lead synced to Dashboard:', fbLeadId, res.status);
-      }).catch(err => console.warn('Firebase sync warning:', err));
-    } catch (fbErr) {
-      console.warn('Firebase error:', fbErr);
+    if (!validate()) {
+      if (onNotify) {
+        onNotify('Vui lòng kiểm tra lại các trường thông tin có dấu đỏ!', 'warning');
+      }
+      return;
     }
 
+    setIsSubmitting(true);
     const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+    const goalsText = formData.goals.join(', ') + (formData.primaryGoal ? ` (Ưu tiên: ${formData.primaryGoal})` : '');
+
+    const randSuffix = Math.floor(100000 + Math.random() * 900000);
+    const fbLeadId = 'DUDI-' + randSuffix;
+
+    const currentSub = {
+      leadId: fbLeadId,
+      fullName: formData.fullName.trim(),
+      phone: formData.phone.trim(),
+      website: formData.website.trim()
+    };
+
+    try {
+      const fbPayload = {
+        fullName: formData.fullName.trim(),
+        phone: formData.phone.trim(),
+        website: formData.website.trim(),
+        industry: formData.industry.trim() || 'Chưa cung cấp',
+        location: formData.location.trim() || 'Chưa cung cấp',
+        selectedPackage: formData.packageInterest || selectedPackage || 'Tư vấn SEO tổng thể',
+        goals: goalsText,
+        budget: formData.budget || 'Chưa xác định',
+        description: formData.description.trim(),
+        status: 'new',
+        source: 'DUDI SEO Landing Page',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      const fbUrl = 'https://dudi-f5a6b-default-rtdb.firebaseio.com/leads/' + fbLeadId + '.json';
+      const fbRes = await fetch(fbUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fbPayload)
+      });
+      console.log('🔥 [Firebase Live] Lead synced to Dashboard:', fbLeadId, fbRes.status);
+    } catch (fbErr) {
+      console.error('⚠️ Firebase realtime sync warning:', fbErr);
+    }
 
     const payload = {
       lead_id: fbLeadId,
@@ -174,12 +186,14 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
           body: postData
         });
       }
+      setSubmittedInfo(currentSub);
       setSubmitted(true);
       if (onNotify) {
         onNotify('DUDI đã nhận website và sẽ liên hệ để xác nhận mục tiêu trước khi audit.', 'success');
       }
     } catch (err) {
       console.error('Error submitting form to Google Script:', err);
+      setSubmittedInfo(currentSub);
       setSubmitted(true);
       if (onNotify) {
         onNotify('DUDI đã nhận website và sẽ liên hệ sớm nhất!', 'success');
@@ -194,204 +208,223 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
       <div className="container">
         <div className="form-banner-card reveal-scale">
           <div className="form-left-wrapper">
-            {/* Form Interactive Card with Red Background */}
-            <div className="red-form-card">
-            <h2 className="form-card-title">
-              Gửi website để nhận đánh giá <span className="title-accent-badge">SEO</span>
-            </h2>
-            <p className="form-card-sub">
-              DUDI sẽ liên hệ trực tiếp để xác nhận mục tiêu và gửi bản phân tích kỹ thuật chi tiết.
-            </p>
-
+            
             {submitted ? (
-              <div className="success-state">
+              /* BẢNG THÔNG BÁO GỬI THÀNH CÔNG */
+              <div className="red-form-card success-card-container">
                 <div className="success-icon-wrap">
-                  <CheckCircle size={44} color="#FFFFFF" />
-                </div>
-                <h3 className="success-title">Đã gửi yêu cầu thành công!</h3>
-                <p className="success-message">
-                  DUDI đã nhận website và sẽ liên hệ với quý khách trong thời gian sớm nhất.
-                </p>
-                <button onClick={handleReset} className="btn btn-form-reset">
-                  Gửi lại yêu cầu khác
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="form-grid">
-                  {/* Website */}
-                  <div className="form-group col-span-2">
-                    <label htmlFor="input-website" className="form-label">
-                      Website (Bắt buộc)
-                    </label>
-                    <input
-                      id="input-website"
-                      type="url"
-                      placeholder="https://example.com"
-                      value={formData.website}
-                      onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-                      className={`form-input ${errors.website ? 'is-invalid' : ''}`}
-                    />
-                    {errors.website && <span className="error-text">{errors.website}</span>}
-                  </div>
-
-                  {/* Họ và tên */}
-                  <div className="form-group">
-                    <label htmlFor="input-name" className="form-label">
-                      Họ và tên (Bắt buộc)
-                    </label>
-                    <input
-                      id="input-name"
-                      type="text"
-                      placeholder="2 đến 80 ký tự"
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className={`form-input ${errors.fullName ? 'is-invalid' : ''}`}
-                    />
-                    {errors.fullName && <span className="error-text">{errors.fullName}</span>}
-                  </div>
-
-                  {/* Điện thoại hoặc Zalo */}
-                  <div className="form-group">
-                    <label htmlFor="input-phone" className="form-label">
-                      Điện thoại / Zalo (Bắt buộc)
-                    </label>
-                    <input
-                      id="input-phone"
-                      type="tel"
-                      placeholder="9 đến 12 chữ số"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className={`form-input ${errors.phone ? 'is-invalid' : ''}`}
-                    />
-                    {errors.phone && <span className="error-text">{errors.phone}</span>}
-                  </div>
-
-                  {/* Ngành nghề */}
-                  <div className="form-group">
-                    <label htmlFor="input-industry" className="form-label">
-                      Ngành nghề (Bắt buộc)
-                    </label>
-                    <input
-                      id="input-industry"
-                      type="text"
-                      placeholder="2 đến 120 ký tự"
-                      value={formData.industry}
-                      onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
-                      className={`form-input ${errors.industry ? 'is-invalid' : ''}`}
-                    />
-                    {errors.industry && <span className="error-text">{errors.industry}</span>}
-                  </div>
-
-                  {/* Khu vực */}
-                  <div className="form-group">
-                    <label htmlFor="input-location" className="form-label">
-                      Khu vực (Không bắt buộc)
-                    </label>
-                    <input
-                      id="input-location"
-                      type="text"
-                      placeholder="Tối đa 100 ký tự"
-                      value={formData.location}
-                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                      className="form-input"
-                    />
-                    {errors.location && <span className="error-text">{errors.location}</span>}
-                  </div>
-
-                  {/* Mục tiêu */}
-                  <div className="form-group col-span-2">
-                    <label className="form-label">
-                      Mục tiêu (Hiển thị, Traffic, Lead, Bán hàng)
-                    </label>
-                    <div className="goals-options-grid">
-                      {goalOptions.map((goal) => {
-                        const isChecked = formData.goals.includes(goal);
-                        return (
-                          <label key={goal} className={`goal-checkbox-label ${isChecked ? 'active' : ''}`}>
-                            <input
-                              type="checkbox"
-                              checked={isChecked}
-                              onChange={() => handleGoalToggle(goal)}
-                            />
-                            <span>{goal}</span>
-                          </label>
-                        );
-                      })}
-                    </div>
-                    {errors.goals && <span className="error-text">{errors.goals}</span>}
-
-                    {/* Mục tiêu ưu tiên */}
-                    {formData.goals.length > 0 && (
-                      <div className="primary-goal-selector">
-                        <span className="selector-title">Ưu tiên:</span>
-                        <div className="radio-group">
-                          {formData.goals.map((g) => (
-                            <label key={g} className="radio-label">
-                              <input
-                                type="radio"
-                                name="primaryGoal"
-                                value={g}
-                                checked={formData.primaryGoal === g}
-                                onChange={(e) => setFormData({ ...formData, primaryGoal: e.target.value })}
-                              />
-                              <span>{g}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {errors.primaryGoal && <span className="error-text">{errors.primaryGoal}</span>}
-                  </div>
-
-                  {/* Ngân sách */}
-                  <div className="form-group col-span-2">
-                    <label htmlFor="select-budget" className="form-label">
-                      Ngân sách (Không bắt buộc)
-                    </label>
-                    <select
-                      id="select-budget"
-                      value={formData.budget}
-                      onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                      className="form-input form-select"
-                    >
-                      {budgetOptions.map((b, idx) => (
-                        <option key={idx} value={b.value}>
-                          {b.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Mô tả */}
-                  <div className="form-group col-span-2">
-                    <label htmlFor="input-desc" className="form-label">
-                      Mô tả (Bắt buộc: 10 đến 1000 ký tự)
-                    </label>
-                    <textarea
-                      id="input-desc"
-                      rows={2}
-                      placeholder="Mô tả chi tiết nhu cầu..."
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      className={`form-input ${errors.description ? 'is-invalid' : ''}`}
-                    />
-                    {errors.description && <span className="error-text">{errors.description}</span>}
+                  <div className="success-icon-circle">
+                    <CheckCircle2 size={42} color="#FFFFFF" />
                   </div>
                 </div>
 
-                <div className="form-actions">
-                  <button type="submit" className="btn btn-submit-white" disabled={isSubmitting}>
-                    <span>{isSubmitting ? 'Đang gửi yêu cầu...' : 'Gửi website để nhận đánh giá SEO'}</span>
-                    <Send size={15} className={isSubmitting ? 'animate-spin' : ''} />
+                <div className="success-header-wrap">
+                  <span className="success-badge-id">Mã tiếp nhận: #{submittedInfo.leadId || 'DUDI-SEO'}</span>
+                  <h3 className="success-title">Đã Gửi Yêu Cầu Thành Công! 🎉</h3>
+                  <p className="success-message">
+                    Cảm ơn <strong>{submittedInfo.fullName}</strong>! DUDI đã tiếp nhận website <strong style={{ color: '#FEF08A' }}>{submittedInfo.website}</strong> và thông tin mục tiêu SEO của bạn.
+                  </p>
+                </div>
+
+                {/* Summary Info Box */}
+                <div className="success-summary-box">
+                  <div className="summary-row">
+                    <span>Số điện thoại / Zalo:</span>
+                    <strong>{submittedInfo.phone}</strong>
+                  </div>
+                  <div className="summary-row">
+                    <span>Thời gian phản hồi:</span>
+                    <strong style={{ color: '#4ADE80' }}>Trong vòng 15 - 30 phút</strong>
+                  </div>
+                  <div className="summary-row">
+                    <span>Đơn vị đối soát:</span>
+                    <strong>Chuyên gia SEO DUDI</strong>
+                  </div>
+                </div>
+
+                <div className="success-btn-group">
+                  <a
+                    href="https://zalo.me/0909163821"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-zalo-direct"
+                  >
+                    <MessageSquare size={16} />
+                    <span>Nhắn Zalo Tư Vấn Ngay</span>
+                  </a>
+
+                  <button onClick={handleReset} className="btn btn-form-reset">
+                    <RotateCcw size={14} />
+                    <span>Gửi lại website khác</span>
                   </button>
                 </div>
-              </form>
+              </div>
+            ) : (
+              /* FORM NHẬP LIỆU GỐC */
+              <div className="red-form-card">
+                <h2 className="form-card-title">
+                  Gửi website để nhận đánh giá <span className="title-accent-badge">SEO</span>
+                </h2>
+                <p className="form-card-sub">
+                  DUDI sẽ liên hệ trực tiếp để xác nhận mục tiêu và gửi bản phân tích kỹ thuật chi tiết.
+                </p>
+
+                <form onSubmit={handleSubmit} noValidate>
+                  <div className="form-grid">
+                    {/* Website */}
+                    <div className="form-group col-span-2">
+                      <label htmlFor="input-website" className="form-label">
+                        Website (Bắt buộc) <span style={{ color: '#FEF08A' }}>*</span>
+                      </label>
+                      <input
+                        id="input-website"
+                        type="url"
+                        placeholder="https://example.com"
+                        value={formData.website}
+                        onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                        className={`form-input ${errors.website ? 'is-invalid' : ''}`}
+                      />
+                      {errors.website && <span className="error-text">{errors.website}</span>}
+                    </div>
+
+                    {/* Họ và tên */}
+                    <div className="form-group">
+                      <label htmlFor="input-name" className="form-label">
+                        Họ và tên <span style={{ color: '#FEF08A' }}>*</span>
+                      </label>
+                      <input
+                        id="input-name"
+                        type="text"
+                        placeholder="Nguyễn Văn A"
+                        value={formData.fullName}
+                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                        className={`form-input ${errors.fullName ? 'is-invalid' : ''}`}
+                      />
+                      {errors.fullName && <span className="error-text">{errors.fullName}</span>}
+                    </div>
+
+                    {/* Số điện thoại / Zalo */}
+                    <div className="form-group">
+                      <label htmlFor="input-phone" className="form-label">
+                        Số điện thoại / Zalo <span style={{ color: '#FEF08A' }}>*</span>
+                      </label>
+                      <input
+                        id="input-phone"
+                        type="tel"
+                        placeholder="0909 163 821"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className={`form-input ${errors.phone ? 'is-invalid' : ''}`}
+                      />
+                      {errors.phone && <span className="error-text">{errors.phone}</span>}
+                    </div>
+
+                    {/* Ngành nghề */}
+                    <div className="form-group">
+                      <label htmlFor="input-industry" className="form-label">
+                        Ngành nghề / Dịch vụ chính <span style={{ color: '#FEF08A' }}>*</span>
+                      </label>
+                      <input
+                        id="input-industry"
+                        type="text"
+                        placeholder="Ví dụ: Mỹ phẩm, Luật, Xây dựng..."
+                        value={formData.industry}
+                        onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
+                        className={`form-input ${errors.industry ? 'is-invalid' : ''}`}
+                      />
+                      {errors.industry && <span className="error-text">{errors.industry}</span>}
+                    </div>
+
+                    {/* Địa bàn */}
+                    <div className="form-group">
+                      <label htmlFor="input-location" className="form-label">
+                        Địa bàn mục tiêu
+                      </label>
+                      <input
+                        id="input-location"
+                        type="text"
+                        placeholder="Toàn quốc hoặc TP.HCM, Hà Nội..."
+                        value={formData.location}
+                        onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                        className="form-input"
+                      />
+                    </div>
+
+                    {/* Mục tiêu SEO */}
+                    <div className="form-group col-span-2">
+                      <label className="form-label">
+                        Mục tiêu SEO (Chọn các mục phù hợp) <span style={{ color: '#FEF08A' }}>*</span>
+                      </label>
+                      <div className="goals-options-grid">
+                        {goalOptions.map((goal) => {
+                          const isSelected = formData.goals.includes(goal);
+                          return (
+                            <label
+                              key={goal}
+                              className={`goal-checkbox-label ${isSelected ? 'active' : ''}`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={isSelected}
+                                onChange={() => handleGoalToggle(goal)}
+                                style={{ display: 'none' }}
+                              />
+                              <span>{goal}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                      {errors.goals && <span className="error-text">{errors.goals}</span>}
+                    </div>
+
+                    {/* Ngân sách */}
+                    <div className="form-group col-span-2">
+                      <label htmlFor="select-budget" className="form-label">
+                        Ngân sách dự kiến / tháng (Không bắt buộc)
+                      </label>
+                      <select
+                        id="select-budget"
+                        value={formData.budget}
+                        onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                        className="form-input form-select"
+                      >
+                        {budgetOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value} style={{ color: '#0F172A' }}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Mô tả */}
+                    <div className="form-group col-span-2">
+                      <label htmlFor="input-desc" className="form-label">
+                        Mô tả nhu cầu / Tình trạng website hiện tại <span style={{ color: '#FEF08A' }}>*</span>
+                      </label>
+                      <textarea
+                        id="input-desc"
+                        rows={3}
+                        placeholder="Ví dụ: Web mới làm chưa có traffic, từ khóa tụt hạng, cần lên top ngành..."
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        className={`form-input form-textarea ${errors.description ? 'is-invalid' : ''}`}
+                      />
+                      {errors.description && <span className="error-text">{errors.description}</span>}
+                    </div>
+                  </div>
+
+                  <div className="form-actions">
+                    <button type="submit" className="btn btn-submit-white" disabled={isSubmitting}>
+                      <span>{isSubmitting ? 'Đang gửi yêu cầu...' : 'Gửi website để nhận đánh giá SEO'}</span>
+                      <Send size={15} className={isSubmitting ? 'animate-spin' : ''} />
+                    </button>
+                  </div>
+                </form>
+              </div>
             )}
           </div>
         </div>
       </div>
-    </div>
 
       <style>{`
         .form-section-wrapper {
@@ -413,6 +446,7 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
           border: 1px solid rgba(0, 0, 0, 0.06);
           overflow: hidden;
           max-width: 1200px;
+          min-height: 580px;
           margin: 0 auto;
           display: flex;
           align-items: stretch;
@@ -429,10 +463,10 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
         /* Red Theme Form Card */
         .red-form-card {
           width: 100%;
-          background: linear-gradient(145deg, #C62828 0%, #B71C1C 45%, #8E0000 100%);
+          background: linear-gradient(145deg, rgba(198, 40, 40, 0.98) 0%, rgba(183, 28, 28, 0.98) 45%, rgba(142, 0, 0, 0.99) 100%);
           border-radius: 0;
-          padding: 28px 32px;
-          box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+          padding: 32px 36px;
+          box-shadow: 6px 0 30px rgba(0, 0, 0, 0.18);
           color: #FFFFFF;
           backdrop-filter: blur(10px);
           display: flex;
@@ -446,7 +480,7 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
           font-weight: 800;
           letter-spacing: 0.02em;
           color: #FFFFFF;
-          margin-bottom: 3px;
+          margin-bottom: 4px;
           line-height: 1.25;
         }
 
@@ -457,41 +491,32 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
           border-radius: 6px;
           font-weight: 900;
           font-size: 0.9em;
+          display: inline-block;
           margin-left: 4px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .form-card-sub {
-          font-size: 0.78rem;
-          color: rgba(255, 255, 255, 0.9);
-          line-height: 1.35;
-          margin-bottom: 12px;
-          white-space: nowrap;
-        }
-
-        @media (max-width: 600px) {
-          .form-card-sub {
-            white-space: normal;
-          }
+          font-size: 0.84rem;
+          color: rgba(255, 255, 255, 0.88);
+          margin-bottom: 14px;
+          line-height: 1.4;
         }
 
         .form-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 8px 12px;
+          grid-template-columns: 1fr 1fr;
+          gap: 9px 12px;
         }
 
         @media (max-width: 560px) {
           .form-grid {
             grid-template-columns: 1fr;
-          }
-          .form-group.col-span-2 {
-            grid-column: span 1;
+            gap: 8px;
           }
         }
 
         .col-span-2 {
-          grid-column: span 2;
+          grid-column: 1 / -1;
         }
 
         .form-group {
@@ -503,20 +528,20 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
         .form-label {
           font-size: 0.76rem;
           font-weight: 700;
-          color: rgba(255, 255, 255, 0.95);
+          color: #FFFFFF;
+          margin-bottom: 0px;
         }
 
         .form-input {
           width: 100%;
           padding: 7px 11px;
-          font-size: 0.84rem;
-          font-family: inherit;
-          color: #0F172A;
-          background: #FFFFFF;
-          border: 1px solid rgba(255, 255, 255, 0.8);
           border-radius: var(--radius-md);
-          outline: none;
+          border: 1px solid rgba(255, 255, 255, 0.35);
+          background: rgba(255, 255, 255, 0.96);
+          color: #0F172A;
+          font-size: 0.82rem;
           transition: all 0.2s ease;
+          outline: none;
           box-sizing: border-box;
         }
 
@@ -558,6 +583,7 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
         .goal-checkbox-label {
           display: flex;
           align-items: center;
+          justify-content: center;
           gap: 5px;
           padding: 5px 8px;
           background: rgba(255, 255, 255, 0.15);
@@ -582,41 +608,8 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
 
-        .primary-goal-selector {
-          margin-top: 5px;
-          padding: 5px 10px;
-          background: rgba(0, 0, 0, 0.15);
-          border-radius: var(--radius-md);
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .selector-title {
-          font-size: 0.74rem;
-          font-weight: 700;
-          color: rgba(255, 255, 255, 0.9);
-        }
-
-        .radio-group {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .radio-label {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          font-size: 0.76rem;
-          font-weight: 600;
-          color: #FFFFFF;
-          cursor: pointer;
-        }
-
         .form-actions {
-          margin-top: 12px;
+          margin-top: 14px;
           display: flex;
           justify-content: center;
         }
@@ -626,13 +619,17 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
           color: #B71C1C;
           font-weight: 800;
           font-size: 0.88rem;
-          padding: 9px 24px;
+          padding: 10px 24px;
           border-radius: var(--radius-full);
           box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
           border: none;
           cursor: pointer;
           transition: all 0.2s ease;
           width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
         }
 
         .btn-submit-white:hover {
@@ -642,17 +639,46 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
           box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
         }
 
-        .success-state {
+        /* Success Card Styles */
+        .success-card-container {
+          padding: 36px 32px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
           text-align: center;
-          padding: 24px 16px;
         }
 
         .success-icon-wrap {
+          display: flex;
+          justify-content: center;
+        }
+
+        .success-icon-circle {
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.1);
+        }
+
+        .success-badge-id {
+          display: inline-block;
+          padding: 4px 12px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.18);
+          color: #FFFFFF;
+          font-size: 0.78rem;
+          font-weight: 700;
+          letter-spacing: 0.5px;
           margin-bottom: 8px;
         }
 
         .success-title {
-          font-size: 1.15rem;
+          font-size: clamp(1.2rem, 1.6vw, 1.5rem);
           font-weight: 800;
           color: #FFFFFF;
           margin-bottom: 6px;
@@ -660,18 +686,83 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
 
         .success-message {
           font-size: 0.86rem;
-          color: rgba(255, 255, 255, 0.9);
+          color: rgba(255, 255, 255, 0.92);
           max-width: 440px;
-          margin: 0 auto 16px auto;
+          margin: 0 auto;
           line-height: 1.5;
         }
 
+        .success-summary-box {
+          width: 100%;
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 12px;
+          padding: 12px 16px;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          text-align: left;
+        }
+
+        .summary-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.82rem;
+          color: rgba(255, 255, 255, 0.85);
+        }
+
+        .summary-row strong {
+          color: #FFFFFF;
+        }
+
+        .success-btn-group {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 4px;
+        }
+
+        .btn-zalo-direct {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 10px 18px;
+          border-radius: var(--radius-full);
+          background: #0068FF;
+          color: #FFFFFF;
+          font-weight: 700;
+          font-size: 0.88rem;
+          text-decoration: none;
+          box-shadow: 0 4px 14px rgba(0, 104, 255, 0.4);
+          transition: all 0.2s ease;
+        }
+
+        .btn-zalo-direct:hover {
+          background: #0056D2;
+          transform: translateY(-1px);
+        }
+
         .btn-form-reset {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
           background: #FFFFFF;
           color: #B71C1C;
           font-weight: 700;
+          font-size: 0.82rem;
           padding: 8px 18px;
-          border-radius: var(--radius-md);
+          border-radius: var(--radius-full);
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .btn-form-reset:hover {
+          background: #FFF5F5;
         }
 
         @media (max-width: 900px) {
@@ -685,7 +776,7 @@ export default function RequestFormSection({ selectedPackage, onNotify }) {
             max-width: 100%;
           }
           .red-form-card {
-            padding: 22px 18px;
+            padding: 24px 20px;
           }
         }
       `}</style>

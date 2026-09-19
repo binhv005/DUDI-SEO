@@ -96,7 +96,7 @@ export default function App() {
 
   const handleSelectPackage = (pkgName) => {
     setSelectedPkg(pkgName);
-    showNotification(`Đã chọn gói dịch vụ: ${pkgName}`, 'info');
+    showNotification(`ÄÃ£ chá»n gÃ³i dá»‹ch vá»¥: ${pkgName}`, 'info');
   };
 
   return (
@@ -121,41 +121,41 @@ export default function App() {
 
       {/* Main Landing Page Sections (S02 -> S12) */}
       <main>
-        {/* S02: Hero (Nói rõ dịch vụ) */}
+        {/* S02: Hero (NÃ³i rÃµ dá»‹ch vá»¥) */}
         <HeroSection />
 
-        {/* S03: Đối tượng phù hợp (Giúp khách tự nhận diện) */}
+        {/* S03: Äá»‘i tÆ°á»£ng phÃ¹ há»£p (GiÃºp khÃ¡ch tá»± nháº­n diá»‡n) */}
         <TargetAudienceSection onSelectPackage={handleSelectPackage} />
 
-        {/* S04: Vấn đề (Tạo nhu cầu thực tế) */}
+        {/* S04: Váº¥n Ä‘á» (Táº¡o nhu cáº§u thá»±c táº¿) */}
         <ProblemsSection />
 
-        {/* S05: Đầu ra (Nói rõ khách nhận gì) */}
+        {/* S05: Äáº§u ra (NÃ³i rÃµ khÃ¡ch nháº­n gÃ¬) */}
         <DeliverablesSection />
 
-        {/* S06: Bảng giá (So sánh & chọn 3 gói) */}
+        {/* S06: Báº£ng giÃ¡ (So sÃ¡nh & chá»n 3 gÃ³i) */}
         <PackagesSection onSelectPackage={handleSelectPackage} />
 
-        {/* S07: Quy trình (Giảm rủi ro mua hàng) */}
+        {/* S07: Quy trÃ¬nh (Giáº£m rá»§i ro mua hÃ ng) */}
         <ProcessSection />
 
-        {/* S08: Case hoặc mẫu (Báo cáo thực tế & độ tin cậy) */}
+        {/* S08: Case hoáº·c máº«u (BÃ¡o cÃ¡o thá»±c táº¿ & Ä‘á»™ tin cáº­y) */}
         <ReportingCaseSection />
 
-        {/* S09: Giới hạn (Lọc sai nhu cầu & ngoài phạm vi) */}
+        {/* S09: Giá»›i háº¡n (Lá»c sai nhu cáº§u & ngoÃ i pháº¡m vi) */}
         <ScopeLimitsSection />
 
-        {/* S10: FAQ (Giải đáp phản đối) */}
+        {/* S10: FAQ (Giáº£i Ä‘Ã¡p pháº£n Ä‘á»‘i) */}
         <FAQSection />
 
-        {/* S11: Form (Thu lead đủ chuẩn) */}
+        {/* S11: Form (Thu lead Ä‘á»§ chuáº©n) */}
         <RequestFormSection selectedPackage={selectedPkg} onNotify={showNotification} />
 
-        {/* S12: CTA cuối (Chốt hành động với background robot 3D) */}
+        {/* S12: CTA cuá»‘i (Chá»‘t hÃ nh Ä‘á»™ng vá»›i background robot 3D) */}
         <FinalCTASection onNotify={showNotification} />
       </main>
 
-      {/* S13: Footer (Thông tin pháp lý) */}
+      {/* S13: Footer (ThÃ´ng tin phÃ¡p lÃ½) */}
       <Footer onNotify={showNotification} />
 
       {/* Floating Actions (Hotline Call, Zalo, Back to Top) */}
